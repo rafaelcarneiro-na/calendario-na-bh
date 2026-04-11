@@ -40,10 +40,7 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 .tabs{display:flex;gap:2px;padding:0 20px;overflow-x:auto}
 .tab{padding:10px 20px;border:none;background:transparent;color:#94a3b8;cursor:pointer;font-size:12px;font-weight:600;border-radius:var(--radius) var(--radius) 0 0;transition:all .15s;white-space:nowrap;font-family:var(--font);letter-spacing:.2px}
 .tab:hover{color:#cbd5e1;background:rgba(255,255,255,.04)}.tab.on{background:var(--bg);color:var(--ink);font-weight:700}
-.legend{background:var(--surface);border-bottom:1px solid #e7e5e4;padding:10px 20px}
-.legend-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;max-width:1440px;margin:0 auto}
-.legend-label{font-size:11px;color:var(--ink3);font-weight:600;margin-right:4px}
-.lc{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;cursor:default;border:1px solid transparent;transition:transform .1s}.lc:hover{transform:scale(1.05)}
+/* legend removed */
 .miss-panel{max-width:1440px;margin:14px auto 0;padding:0 14px}
 .miss-box{background:var(--surface);border:1.5px solid #fca5a5;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
 .miss-hdr{background:linear-gradient(135deg,#fef2f2,#fee2e2);padding:10px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s}.miss-hdr:hover{background:linear-gradient(135deg,#fee2e2,#fecaca)}
@@ -147,6 +144,16 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 .fb-status.err{display:block;background:var(--accent-soft);color:var(--accent);border:1px solid #fca5a5}
 .fb-status.loading{display:block;background:var(--surface2);color:var(--ink2);border:1px solid #e7e5e4}
 .toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:11px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:var(--shadow-lg)}.toast.show{opacity:1;transform:translateY(0)}
+.sync-banner{display:none;background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fca5a5;border-radius:var(--radius);padding:10px 16px;margin:12px 14px 0;max-width:1440px;font-size:12px;color:#991b1b;font-weight:600;align-items:center;gap:10px;box-shadow:var(--shadow-sm);animation:bannerPulse 3s ease-in-out infinite}
+.sync-banner.show{display:flex}
+.sync-banner .sb-icon{font-size:18px;flex-shrink:0}
+.sync-banner .sb-text{flex:1;line-height:1.4}
+.sync-banner .sb-btn{background:#b91c1c;color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--font);white-space:nowrap;transition:background .15s}
+.sync-banner .sb-btn:hover{background:#991b1b}
+@keyframes bannerPulse{0%,100%{border-color:#fca5a5}50%{border-color:#f87171}}
+.sync-ok-badge{display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:var(--radius);padding:8px 16px;margin:12px 14px 0;max-width:1440px;font-size:12px;color:#15803d;font-weight:600;align-items:center;gap:8px}
+.sync-ok-badge.show{display:flex}
+.sync-ok-badge .sb-icon{font-size:16px}
 @media(max-width:600px){.frow{grid-template-columns:1fr}.sactions{flex-direction:column}.hdr-top{gap:10px}.nav-bar{gap:8px;padding:10px 12px}}
 </style>
 </head>
@@ -167,7 +174,16 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
     <button class="tab" onclick="setView('escala',this)">👤 Minha Escala</button>
   </div>
 </div></div>
-<div class="legend"><div class="legend-row" id="legRow"><span class="legend-label">Categorias:</span></div></div>
+<div class="sync-banner" id="syncBanner" style="padding:10px 20px">
+  <span class="sb-icon">⚠️</span>
+  <span class="sb-text">Calendário em <strong>modo local</strong> — suas edições não estão sendo compartilhadas com a equipe. Conecte ao Firebase para sincronizar.</span>
+  <button class="sb-btn" onclick="openSetup()">Conectar Firebase</button>
+</div>
+<div class="sync-ok-badge" id="syncOkBadge">
+  <span class="sb-icon">✅</span>
+  <span>Firebase conectado — edições sincronizadas em tempo real com a equipe</span>
+</div>
+
 <div id="vSemana">
   <div class="miss-panel"><div class="miss-box" id="missingBox" style="display:none">
     <div class="miss-hdr" onclick="toggleMiss()"><h3>⚠ Vagas em aberto esta semana</h3><span class="cnt" id="missCnt">0</span><span class="tog open" id="missTog">▼</span></div>
@@ -190,7 +206,7 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
   <div class="month-wrap"><table class="month-table"><thead><tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr></thead><tbody id="monthBody"></tbody></table></div>
 </div>
 <div id="vEscala" style="display:none"><div class="escala-wrap">
-  <div class="escala-search"><h2>Minha Escala — Abr–Jul 2026</h2><p>Digite seu nome para ver todas as atividades em que você está escalado.</p>
+  <div class="escala-search"><h2>Minha Escala — Abr–Jul 2026</h2><p>Digite seu nome para ver suas próximas atividades (datas passadas são omitidas).</p>
     <div class="search-row"><input type="text" id="escalaInput" placeholder="Ex: Ricardo, Willy, Ana Laura…" oninput="debouncedEscala()"><button onclick="renderEscala()">Buscar</button></div>
   </div><div class="escala-results" id="escalaResults"><div class="escala-empty">Digite um nome para começar</div></div>
 </div></div>
@@ -217,11 +233,12 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 
 <script>
 const CAT={
-  portaria:{label:"Portaria",color:"#c2410c",bg:"#fff7ed",order:0},recepcao:{label:"Recepção",color:"#15803d",bg:"#f0fdf4",order:1},
-  cafeteria:{label:"Cafeteria",color:"#7e22ce",bg:"#faf5ff",order:2},am:{label:"Artes Marc.",color:"#0369a1",bg:"#f0f9ff",order:3},
-  formacao:{label:"Formação",color:"#c2410c",bg:"#fffbeb",order:4},reuniao:{label:"Reunião",color:"#6b7280",bg:"#f9fafb",order:5},
-  teatro:{label:"Teatro",color:"#0f766e",bg:"#f0fdfa",order:6},cerimonia:{label:"Cerimônia",color:"#a16207",bg:"#fefce8",order:7},
-  aula:{label:"Aula",color:"#b91c1c",bg:"#fef2f2",order:8},especial:{label:"Especial",color:"#1d4ed8",bg:"#eff6ff",order:9},
+  portaria:{label:"Portaria",color:"#b91c1c",bg:"#fef2f2",order:0},recepcao:{label:"Recepção",color:"#15803d",bg:"#f0fdf4",order:1},
+  cafeteria:{label:"Cafeteria",color:"#7e22ce",bg:"#faf5ff",order:2},am:{label:"Artes Marc.",color:"#c2410c",bg:"#fff7ed",order:3},
+  esportes:{label:"Escola Esportes",color:"#0891b2",bg:"#ecfeff",order:4},formacao:{label:"Formação",color:"#9333ea",bg:"#faf5ff",order:5},
+  reuniao:{label:"Reunião",color:"#6b7280",bg:"#f9fafb",order:6},teatro:{label:"Teatro",color:"#6b7280",bg:"#f9fafb",order:7},
+  cerimonia:{label:"Cerimônia",color:"#a16207",bg:"#fefce8",order:8},aula:{label:"Aula",color:"#1d4ed8",bg:"#eff6ff",order:9},
+  especial:{label:"Especial",color:"#be185d",bg:"#fdf2f8",order:10},
 };
 const SALAS=["","HPB","Giordano Bruno","Hipátia","Auditório","Sri Ram","Mercúrio","Atena","Dojo","Biblioteca","Conselho","DSG","Pampulha","Outro"];
 const DAYLONG=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
@@ -231,7 +248,7 @@ const QUARTERS=[{y:2026,m:3,label:"Abril 2026"},{y:2026,m:4,label:"Maio 2026"},{
 const WEEKLY={
  1:[{id:"sg_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Tiago Arruda da Cruz",loc:""},{id:"sg_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Ana Maria Resende Santos",loc:""},{id:"sg_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Débora Viana Salomão de Abreu",loc:""},{id:"sg_iaido",hr:"18:15",end:"19:15",nm:"I AI DO",cat:"am",per:"Ludmilla Grossi Furtado Saraiva",loc:""},{id:"sg_tai",hr:"18:15",end:"19:15",nm:"Tai Chi",cat:"am",per:"Catia de Castro Possas",loc:""},{id:"sg_nei",hr:"20:00",end:"21:30",nm:"Nei Kung",cat:"am",per:"Rafael Silva Carneiro",loc:""},{id:"sg_amon",hr:"19:03",end:"21:30",nm:"Amon LVI",cat:"aula",per:"",loc:"Auditório",key:"amon_lvi"},{id:"sg_sid",hr:"19:30",end:"21:30",nm:"Sidharta",cat:"aula",per:"",loc:"Giordano Bruno",key:"sidharta_seg"},{id:"sg_xes",hr:"19:30",end:"21:30",nm:"Xesóstris LV",cat:"aula",per:"",loc:"Hipátia",key:"xes_lv"}],
  2:[{id:"te_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Pedro Henrique Macedo Gomes",loc:""},{id:"te_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Alissandra Neves Silva",loc:""},{id:"te_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Laís de Freitas Rodarte",loc:""},{id:"te_esc",hr:"18:30",end:"19:30",nm:"Reunião Escolástica",cat:"reuniao",per:"Silvana Coelho",loc:"Sri Ram"},{id:"te_tea",hr:"19:00",end:"21:00",nm:"Ensaio Teatro",cat:"teatro",per:"Ana Laura de Araújo Santos",loc:"Dojo"},{id:"te_sid",hr:"19:30",end:"21:30",nm:"Sidharta",cat:"aula",per:"",loc:"Hipátia",key:"sidharta_ter"},{id:"te_rom",hr:"19:30",end:"21:30",nm:"Rômulo XIII",cat:"aula",per:"",loc:"HPB",key:"romulo_xiii"},{id:"te_eno",hr:"19:30",end:"21:30",nm:"Enoch",cat:"aula",per:"",loc:"Giordano Bruno",key:"enoch"},{id:"te_apis",hr:"19:30",end:"21:30",nm:"Apis XVII",cat:"aula",per:"",loc:"Auditório",key:"apis_xvii"}],
- 3:[{id:"qa_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Luís Felipe Melo Lima",loc:""},{id:"qa_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Silvana Coelho",loc:""},{id:"qa_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Maria Angelina Santos",loc:""},{id:"qa_tai",hr:"18:15",end:"19:15",nm:"Tai Chi",cat:"am",per:"Laís de Freitas Rodarte",loc:"Auditório"},{id:"qa_ten",hr:"18:30",end:"19:30",nm:"Tênis de Mesa",cat:"am",per:"Tiago Arruda da Cruz",loc:"Dojo"},{id:"qa_bib",hr:"19:03",end:"21:30",nm:"Reunião Biblioteca",cat:"reuniao",per:"Pedro Henrique Macedo Gomes",loc:"Biblioteca"},{id:"qa_jan",hr:"18:30",end:"20:30",nm:"Janos",cat:"aula",per:"",loc:"HPB",key:"janos"},{id:"qa_isis",hr:"19:30",end:"21:30",nm:"Ísis",cat:"aula",per:"",loc:"Hipátia",key:"isis"},{id:"qa_anb",hr:"19:30",end:"21:30",nm:"Anubis LV",cat:"aula",per:"",loc:"Giordano Bruno",key:"anubis_lv"},{id:"qa_nuth",hr:"19:30",end:"21:30",nm:"Nuth LVI",cat:"aula",per:"",loc:"Auditório",key:"nuth_lvi"},{id:"qa_pamp",hr:"19:30",end:"21:30",nm:"Anubis LVI (Pampulha)",cat:"aula",per:"",loc:"Pampulha",key:"anubis_pamp"}],
+ 3:[{id:"qa_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Luís Felipe Melo Lima",loc:""},{id:"qa_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Silvana Coelho",loc:""},{id:"qa_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Maria Angelina Santos",loc:""},{id:"qa_tai",hr:"18:15",end:"19:15",nm:"Tai Chi",cat:"am",per:"Laís de Freitas Rodarte",loc:"Auditório"},{id:"qa_ten",hr:"18:30",end:"19:30",nm:"Tênis de Mesa",cat:"esportes",per:"Tiago Arruda da Cruz",loc:"Dojo"},{id:"qa_bib",hr:"19:03",end:"21:30",nm:"Reunião Biblioteca",cat:"reuniao",per:"Pedro Henrique Macedo Gomes",loc:"Biblioteca"},{id:"qa_jan",hr:"18:30",end:"20:30",nm:"Janos",cat:"aula",per:"",loc:"HPB",key:"janos"},{id:"qa_isis",hr:"19:30",end:"21:30",nm:"Ísis",cat:"aula",per:"",loc:"Hipátia",key:"isis"},{id:"qa_anb",hr:"19:30",end:"21:30",nm:"Anubis LV",cat:"aula",per:"",loc:"Giordano Bruno",key:"anubis_lv"},{id:"qa_nuth",hr:"19:30",end:"21:30",nm:"Nuth LVI",cat:"aula",per:"",loc:"Auditório",key:"nuth_lvi"},{id:"qa_pamp",hr:"19:30",end:"21:30",nm:"Anubis LVI (Pampulha)",cat:"aula",per:"",loc:"Pampulha",key:"anubis_pamp"}],
  4:[{id:"qi_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Rogério Cozzi",loc:""},{id:"qi_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Idelma Aparecida Minelli",loc:""},{id:"qi_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Maria Angelina Santos",loc:""},{id:"qi_iaido",hr:"18:15",end:"19:15",nm:"I AI DO",cat:"am",per:"Rafael Silva Carneiro",loc:"Dojo"},{id:"qi_nei",hr:"20:00",end:"21:30",nm:"Nei Kung",cat:"am",per:"Pedro Henrique Macedo Gomes",loc:"Dojo"},{id:"qi_liv",hr:"18:30",end:"19:30",nm:"Reunião Livraria",cat:"reuniao",per:"Pedro Henrique Macedo Gomes",loc:"Sri Ram"},{id:"qi_hil",hr:"19:30",end:"21:30",nm:"Hilarion",cat:"aula",per:"",loc:"Hipátia",key:"hilarion"},{id:"qi_pit",hr:"19:30",end:"21:30",nm:"Pitágoras",cat:"aula",per:"",loc:"Giordano Bruno",key:"pitagoras"},{id:"qi_amon",hr:"19:30",end:"21:30",nm:"Amon",cat:"aula",per:"",loc:"HPB",key:"amon"},{id:"qi_xes",hr:"19:30",end:"21:30",nm:"Xesóstris LVI (PFC)",cat:"aula",per:"",loc:"Auditório",key:"xes_lvi_pfc"}],
  5:[{id:"sx_ed",hr:"18:30",end:"19:30",nm:"Turma 1 ED",cat:"aula",per:"Ricardo Fernandes Vieira",loc:"Auditório"},{id:"sx_fv",hr:"19:30",end:"21:30",nm:"Reunião FV",cat:"reuniao",per:"Ricardo Fernandes Vieira",loc:"Auditório"}],
  6:[{id:"sa_port",hr:"08:30",end:"12:00",nm:"Portaria",cat:"portaria",per:"",loc:""},{id:"sa_rec",hr:"08:30",end:"12:00",nm:"Recepção",cat:"recepcao",per:"Letícia Estevam e Silva",loc:""},{id:"sa_tv1",hr:"09:00",end:"12:00",nm:"Távolas",cat:"am",per:"Alissandra Neves Silva",loc:"Auditório"},{id:"sa_tv2",hr:"09:00",end:"12:00",nm:"Távolas",cat:"am",per:"Alissandra Neves Silva",loc:"DSG"}],
@@ -248,8 +265,13 @@ const DS={};
 ["2026-04-11","2026-05-30","2026-06-20","2026-07-18"].forEach(d=>{if(!DS[d])DS[d]=[];_esc.forEach(a=>DS[d].push({...a}));});
 ["2026-04-12","2026-04-26","2026-05-17","2026-06-14","2026-07-26"].forEach(d=>{DS[d]=[{id:"do_rom",hr:"Variado",end:"",nm:"Rômulo (Domingo)",cat:"aula",per:"",loc:"",key:"romulo_dom"}];});
 DS["2026-05-19"]=[{id:"te_form",hr:"",end:"",nm:"🎓 FORMATURA",cat:"especial",per:"Rafael / Silvana Coelho",loc:""}];
+/* Semana Mãe Terra: 20,21,22 abril — sem atividades regulares, só Fórum */
+const BLOCKED_DATES=new Set(["2026-04-20","2026-04-21","2026-04-22"]);
+["2026-04-20","2026-04-21","2026-04-22"].forEach(d=>{
+  DS[d]=[{id:"mt_forum",hr:"19:00",end:"21:00",nm:"🌿 Fórum da Mãe Terra",cat:"especial",per:"",loc:"Teatro Municipal"}];
+});
 
-const SPEC={"2026-04-21":{emoji:"🏖️",label:"Feriado — Tiradentes"},"2026-04-22":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-04-23":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-04-25":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-05-19":{emoji:"🎓",label:"Formatura"},"2026-06-04":{emoji:"🏖️",label:"Feriado — Corpus Christi"},"2026-07-20":{emoji:"🌴",label:"Recesso de Julho"}};
+const SPEC={"2026-04-20":{emoji:"🌿",label:"Fórum Mãe Terra — sem aulas"},"2026-04-21":{emoji:"🌿",label:"Fórum Mãe Terra — Tiradentes"},"2026-04-22":{emoji:"🌿",label:"Fórum Mãe Terra — sem aulas"},"2026-04-23":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-04-25":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-05-19":{emoji:"🎓",label:"Formatura"},"2026-06-04":{emoji:"🏖️",label:"Feriado — Corpus Christi"},"2026-07-20":{emoji:"🌴",label:"Recesso de Julho"}};
 
 const MAGIC_BASE={"2026-04-03":["Feriado Semana Santa","Trilha Ibitipoca - Passeio Ecológico"],"2026-04-04":["Trilha Ibitipoca - Passeio Ecológico"],"2026-04-05":["Trilha Ibitipoca - Passeio Ecológico"],"2026-04-09":["Palestra: A Sabedoria secreta da Natureza"],"2026-04-11":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Voluntariado Bora Plantar"],"2026-04-12":["Aula de História da Filosofia Moderna","Formação de Dirigentes BH 14h30–17h30","Voluntariado Esperancestas","Oficina Nacional de Contos"],"2026-04-15":["Aniversário OINAB-S — celebrar em todas as filiais"],"2026-04-16":["Formatura Turma Anúbis (quinta)"],"2026-04-18":["MAM - Enc. Estadual GM com Chefe Nacional","Provacionismo - Filosofilme","Encontro Damas Filial"],"2026-04-19":["MAM - Enc. Estadual GM com Chefe Nacional"],"2026-04-21":["Feriado Tiradentes"],"2026-04-22":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-23":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-24":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-25":["Dia da Mãe Terra / RIMM Guatemala"],"2026-04-26":["RIMM Guatemala"],"2026-05-01":["Feriado Dia do Trabalho","Passeio Trilha Lapinha × Tabuleiro"],"2026-05-02":["Passeio Trilha Lapinha × Tabuleiro"],"2026-05-03":["Passeio Trilha Lapinha × Tabuleiro"],"2026-05-07":["Aula de Abertura Lourdes"],"2026-05-08":["Cerimônia do Lotus Branco"],"2026-05-09":["Reunião CN — 8h30 às 18h, sede Herculano"],"2026-05-10":["Dia das Mães"],"2026-05-12":["Palestra: Dor e crescimento — superando crises"],"2026-05-16":["MAM - Enc. Estadual de FFVV"],"2026-05-17":["MAM - Enc. Estadual de FFVV"],"2026-05-23":["Bandeirante Nacional","Apreciação Adagio","Oficina de Resenha Literária"],"2026-05-24":["Bandeirante Nacional"],"2026-05-27":["Palestra: Mito da Caverna de Platão"],"2026-05-30":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Voluntariado Bora Plantar"],"2026-05-31":["Aula Turma Nacional — CN Online","Formação de Dirigentes BH 14h30–17h30","Voluntariado Esperancestas"],"2026-06-04":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-05":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-06":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-07":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-09":["Palestra: A Nobreza da Competição — O Atleta em sua Melhor Versão"],"2026-06-13":["MAM - Enc. FFVV BH/DIV — Curso Observação Céu","Oficina de Manualidades"],"2026-06-14":["MAM - Enc. FFVV BH/DIV — Curso Observação Céu"],"2026-06-20":["Sábado Escolástico — Reunião Assistentes 14h–18h","Festa Junina","Clube da Leitura","Voluntariado Bora Plantar"],"2026-06-21":["Solstício de Inverno","Reunião Semestral 14h"],"2026-06-23":["Formatura Turma Xesóstris (segunda)"],"2026-06-27":["Dia das Artes"],"2026-06-28":["Aula Turma Nacional — CN Online","Voluntariado Esperancestas"],"2026-07-04":["Bandeirante Nacional — Evento Anual Janos","Provacionismo — Passeio Ecológico"],"2026-07-05":["Bandeirante Nacional — Evento Anual Janos"],"2026-07-08":["Evento Nacional do Voluntariado","Palestra: Como se educar para conquistar a felicidade?"],"2026-07-09":["Evento Nacional do Voluntariado"],"2026-07-10":["Evento Nacional do Voluntariado"],"2026-07-11":["Evento Nacional do Voluntariado — Aniversário 69 anos OINA","Apreciação: Senhor dos Anéis"],"2026-07-12":["Evento Nacional do Voluntariado — Aniversário 69 anos OINA"],"2026-07-15":["Brinde Aniversário OINA 69 anos na Filial"],"2026-07-18":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Treino de Incêndio Filial"],"2026-07-19":["Reunião Semestral Online"],"2026-07-25":["MAM - Enc. GF Estadual com Chefe Nacional"],"2026-07-26":["Aula de História da Filosofia Moderna","MAM - Enc. GF Estadual com Chefe Nacional"]};
 
@@ -259,7 +281,7 @@ let wkStart=getWeekStart(new Date()),mIdx=0,curView="semana",modalCtx=null,missO
 let FB_URL=localStorage.getItem("na_fb_url")||"",fbPoll=null;
 
 /* FIREBASE SYNC */
-function setSyncStatus(s,t){const d=document.getElementById("syncDot");d.className="sync-dot"+(s?" "+s:"");document.getElementById("syncLbl").textContent=t;}
+function setSyncStatus(s,t){const d=document.getElementById("syncDot");d.className="sync-dot"+(s?" "+s:"");document.getElementById("syncLbl").textContent=t;const ban=document.getElementById("syncBanner"),ok=document.getElementById("syncOkBadge");if(s==="ok"){ban.classList.remove("show");ok.classList.add("show");setTimeout(()=>ok.classList.remove("show"),5000);}else if(!s||s==="err"){ban.classList.add("show");ok.classList.remove("show");}else{ok.classList.remove("show");}}
 function fbPath(p){return FB_URL.replace(/\/$/,"")+"/na_cal/"+p+".json";}
 async function fbPush(){if(!FB_URL)return;setSyncStatus("syncing","salvando…");try{const r=await fetch(fbPath("data"),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({overrides,userAdds,lembretes,_ts:Date.now()})});if(r.ok){setSyncStatus("ok","sincronizado ✓");showToast("Sincronizado!");}else setSyncStatus("err","erro");}catch(e){setSyncStatus("err","sem conexão");}}
 async function fbPull(silent){if(!FB_URL)return;if(!silent)setSyncStatus("syncing","atualizando…");try{const r=await fetch(fbPath("data"));if(!r.ok)return;const d=await r.json();if(!d)return;if(d.overrides!==undefined)overrides=d.overrides||{};if(d.userAdds!==undefined)userAdds=d.userAdds||{};if(d.lembretes!==undefined)lembretes=d.lembretes||{};saveLocal();refreshAll();setSyncStatus("ok","sincronizado ✓");}catch(e){setSyncStatus("err","falha");}}
@@ -285,7 +307,8 @@ function sortActs(a){return[...a].sort((x,y)=>{const xo=(CAT[x.cat]||CAT.aula).o
 function getActivities(ds){
   const d=new Date(ds+"T12:00:00"),dow=d.getDay(),cls=CLS[ds]||{},ov=overrides[ds]||{},ua=userAdds[ds]||[];
   let raw=[];
-  (WEEKLY[dow]||[]).forEach(a=>{if(ov[a.id]&&ov[a.id]._deleted)return;let act={...a};if(act.key&&cls[act.key]){act.per=act.per||cls[act.key].p||"";act.tema=cls[act.key].t||"";}if(ov[act.id])Object.assign(act,ov[act.id]);raw.push(act);});
+  const blocked=typeof BLOCKED_DATES!=="undefined"&&BLOCKED_DATES.has(ds);
+  if(!blocked){(WEEKLY[dow]||[]).forEach(a=>{if(ov[a.id]&&ov[a.id]._deleted)return;let act={...a};if(act.key&&cls[act.key]){act.per=act.per||cls[act.key].p||"";act.tema=cls[act.key].t||"";}if(ov[act.id])Object.assign(act,ov[act.id]);raw.push(act);});}
   (DS[ds]||[]).forEach(a=>{if(ov[a.id]&&ov[a.id]._deleted)return;if(raw.find(r=>r.id===a.id))return;let act={...a};if(act.key&&cls[act.key]){act.per=act.per||cls[act.key].p||"";act.tema=cls[act.key].t||"";}if(ov[act.id])Object.assign(act,ov[act.id]);raw.push(act);});
   ua.forEach(a=>raw.push({...a}));
   return{acts:sortActs(raw),spec:SPEC[ds]};
@@ -354,9 +377,10 @@ let _et=null;function debouncedEscala(){clearTimeout(_et);_et=setTimeout(renderE
 function renderEscala(){
   const q=(document.getElementById("escalaInput").value||"").trim().toLowerCase(),res=document.getElementById("escalaResults");
   if(!q){res.innerHTML=`<div class="escala-empty">Digite um nome para começar</div>`;return;}
-  const m=[];let cur=new Date(2026,3,1);const end=new Date(2026,6,31);
+  const today=new Date();today.setHours(0,0,0,0);
+  const m=[];let cur=new Date(Math.max(today.getTime(),new Date(2026,3,1).getTime()));const end=new Date(2026,6,31);
   while(cur<=end){const s=dk(cur),{acts}=getActivities(s);acts.forEach(a=>{if((a.per||"").toLowerCase().includes(q))m.push({day:new Date(cur),act:a});});cur=new Date(cur.getFullYear(),cur.getMonth(),cur.getDate()+1);}
-  if(!m.length){res.innerHTML=`<div class="escala-empty">Nenhuma atividade para "<strong>${q}</strong>".</div>`;return;}
+  if(!m.length){res.innerHTML=`<div class="escala-empty">Nenhuma atividade futura para "<strong>${q}</strong>".</div>`;return;}
   res.innerHTML=m.map(({day,act})=>{const c=CAT[act.cat]||CAT.aula,t=act.hr?(act.end?`${act.hr}–${act.end}`:act.hr):"";
     return`<div class="escala-card" style="border-left-color:${c.color}"><div class="escala-date"><div class="eday">${DAYLONG[day.getDay()].slice(0,3)}</div><div class="enum">${day.getDate()}</div><div class="emon">${MESES_PT[day.getMonth()].slice(0,3)} 2026</div></div><div class="escala-info"><div class="enm">${act.nm}</div><span class="ecat" style="background:${c.color}18;color:${c.color}">${c.label}</span>${t?`<div class="ehr">🕐 ${t}</div>`:""}${act.loc?`<div class="eloc">📍 ${act.loc}</div>`:""}${act.tema?`<div class="etema">${act.tema}</div>`:""}</div></div>`;}).join("");
 }
@@ -373,7 +397,7 @@ function closeModal(){document.getElementById("ov").classList.remove("open");mod
 function setView(v,btn){curView=v;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));if(btn)btn.classList.add("on");["semana","mes","escala"].forEach(n=>{const el=document.getElementById("v"+n.charAt(0).toUpperCase()+n.slice(1));if(el)el.style.display=n===v?"":"none";});}
 
 /* LEGEND */
-function buildLegend(){const row=document.getElementById("legRow");Object.entries(CAT).forEach(([,c])=>{const s=document.createElement("span");s.className="lc";s.style.cssText=`background:${c.color}14;color:${c.color};border-color:${c.color}30`;s.textContent=c.label;row.appendChild(s);});const m=document.createElement("span");m.className="lc";m.style.cssText="background:#fefce8;color:#b45309;border-color:#f59e0b";m.textContent="✨ Cal. Mágico";row.appendChild(m);}
+/* LEGEND removed */
 
 function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2800);}
 function refreshAll(){renderWeek();renderMonth();}
@@ -381,7 +405,7 @@ function refreshAll(){renderWeek();renderMonth();}
 /* INIT */
 (function(){
   let changed=false;Object.entries(MAGIC_BASE).forEach(([s,items])=>{if(!lembretes[s]){lembretes[s]=[...items];changed=true;}});if(changed)saveLocal();
-  buildLegend();document.getElementById("vEscala").style.display="none";document.getElementById("vMes").style.display="none";
+  document.getElementById("vEscala").style.display="none";document.getElementById("vMes").style.display="none";
   refreshAll();if(FB_URL)fbStart();else setSyncStatus("","local");
 })();
 </script>
