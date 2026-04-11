@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nova Acrópole BH · Abr–Jul 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f5f3ef;--surface:#fff;--surface2:#faf9f7;
+  --ink:#1c1917;--ink2:#57534e;--ink3:#a8a29e;
+  --accent:#b91c1c;--accent-soft:#fef2f2;
+  --navy:#1a1a2e;--navy-light:#2d2d4a;
+  --green:#15803d;--green-soft:#f0fdf4;
+  --amber:#b45309;--amber-soft:#fffbeb;
+  --blue:#1d4ed8;--blue-soft:#eff6ff;
+  --radius:10px;--radius-lg:14px;
+  --shadow-sm:0 1px 3px rgba(28,25,23,.06);
+  --shadow-md:0 4px 16px rgba(28,25,23,.08);
+  --shadow-lg:0 12px 40px rgba(28,25,23,.12);
+  --font:'DM Sans',sans-serif;
+  --font-d:'Playfair Display',serif;
+}
+body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13px;color:var(--ink);-webkit-font-smoothing:antialiased}
+.hdr{background:var(--navy);box-shadow:0 4px 24px rgba(0,0,0,.25)}
+.hdr-inner{max-width:1440px;margin:0 auto}
+.hdr-top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:16px 20px 12px}
+.logo{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#991b1b);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:19px;color:#fff;flex-shrink:0;box-shadow:0 2px 8px rgba(185,28,28,.4)}
+.hdr h1{color:#fff;font-family:var(--font-d);font-size:19px;font-weight:700;letter-spacing:-.3px}
+.hdr .subtitle{color:#94a3b8;font-size:11px;margin-top:2px;font-weight:500}
+.sync-area{margin-left:auto;display:flex;align-items:center;gap:8px}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#64748b;transition:background .3s}
+.sync-dot.ok{background:#22c55e}.sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite}.sync-dot.err{background:#ef4444}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.sync-lbl{color:#94a3b8;font-size:11px;font-weight:500}
+.btn-sync-cfg{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#94a3b8;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;font-family:var(--font)}
+.btn-sync-cfg:hover{background:rgba(255,255,255,.15);color:#fff}
+.tabs{display:flex;gap:2px;padding:0 20px;overflow-x:auto}
+.tab{padding:10px 20px;border:none;background:transparent;color:#94a3b8;cursor:pointer;font-size:12px;font-weight:600;border-radius:var(--radius) var(--radius) 0 0;transition:all .15s;white-space:nowrap;font-family:var(--font);letter-spacing:.2px}
+.tab:hover{color:#cbd5e1;background:rgba(255,255,255,.04)}.tab.on{background:var(--bg);color:var(--ink);font-weight:700}
+.legend{background:var(--surface);border-bottom:1px solid #e7e5e4;padding:10px 20px}
+.legend-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;max-width:1440px;margin:0 auto}
+.legend-label{font-size:11px;color:var(--ink3);font-weight:600;margin-right:4px}
+.lc{font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;cursor:default;border:1px solid transparent;transition:transform .1s}.lc:hover{transform:scale(1.05)}
+.miss-panel{max-width:1440px;margin:14px auto 0;padding:0 14px}
+.miss-box{background:var(--surface);border:1.5px solid #fca5a5;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.miss-hdr{background:linear-gradient(135deg,#fef2f2,#fee2e2);padding:10px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:background .15s}.miss-hdr:hover{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+.miss-hdr h3{font-size:12px;font-weight:700;flex:1;color:#991b1b}
+.miss-hdr .cnt{background:var(--accent);color:#fff;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:800}
+.miss-hdr .tog{font-size:13px;color:#dc2626;transition:transform .25s}.miss-hdr .tog.open{transform:rotate(180deg)}
+.miss-body{padding:10px 16px;display:flex;flex-direction:column;gap:6px}.miss-body.closed{display:none}
+.miss-day{display:flex;align-items:flex-start;gap:10px;padding:8px 12px;background:var(--accent-soft);border-radius:8px;border-left:3px solid var(--accent)}
+.miss-day-nm{font-size:11px;font-weight:700;color:var(--accent);min-width:72px;padding-top:1px}
+.miss-items{display:flex;flex-direction:column;gap:4px;flex:1}
+.miss-item{font-size:11px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+.miss-fill{background:var(--accent);color:#fff;border-radius:5px;padding:1px 8px;font-size:10px;cursor:pointer;border:none;font-weight:700;font-family:var(--font);transition:background .15s}.miss-fill:hover{background:#991b1b}
+.nav-bar{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 20px 8px}
+.nav-lbl{font-size:15px;font-weight:700;color:var(--ink);min-width:220px;text-align:center;font-family:var(--font-d);letter-spacing:-.2px}
+.nbtn{background:var(--surface);border:1.5px solid #e7e5e4;color:var(--ink2);border-radius:8px;padding:7px 18px;cursor:pointer;font-size:13px;font-weight:700;transition:all .15s;font-family:var(--font)}.nbtn:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn-today{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:7px 14px;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--font);transition:all .15s}.btn-today:hover{background:#991b1b}
+.week-wrap{overflow-x:auto;padding:0 12px 12px}
+.week-grid{display:grid;grid-template-columns:repeat(7,minmax(172px,1fr));gap:8px;min-width:1050px;max-width:1440px;margin:0 auto}
+.day-col{display:flex;flex-direction:column;gap:5px}
+.day-hdr{border-radius:var(--radius);padding:10px 8px;text-align:center;background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.day-hdr::after{content:'';position:absolute;top:0;right:0;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04));pointer-events:none}
+.day-hdr .dname{font-size:9px;color:#94a3b8;font-weight:700;text-transform:uppercase;letter-spacing:.8px}
+.day-hdr .dnum{font-size:18px;font-weight:800;margin-top:3px;line-height:1}
+.day-hdr .dnum.today-n{background:var(--accent);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;margin:4px auto 0;font-size:15px;box-shadow:0 2px 8px rgba(185,28,28,.3)}
+.day-hdr .spec-lbl{font-size:9px;background:rgba(255,255,255,.12);border-radius:5px;padding:2px 7px;margin-top:5px;display:inline-block;font-weight:600}
+.card{background:var(--surface);border-radius:8px;padding:8px 10px;border-left:3px solid #d6d3d1;cursor:pointer;transition:all .15s;position:relative}
+.card:hover{box-shadow:var(--shadow-md);transform:translateY(-1px)}
+.card.missing{border-left-color:var(--accent)!important;background:var(--accent-soft)!important;outline:1.5px solid rgba(239,68,68,.15)}
+.card .ctime{font-size:10px;color:var(--ink3);font-weight:600;margin-bottom:2px}
+.card .cname{font-size:12px;font-weight:700;color:var(--ink);line-height:1.3}
+.card .ccat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;display:inline-block;margin:3px 0 1px}
+.card .cper{font-size:11px;color:var(--ink2);margin-top:2px}.card .cper.empty{color:var(--accent);font-weight:700}
+.card .cloc{font-size:10px;color:var(--ink3)}.card .ctema{font-size:10px;color:var(--ink2);font-style:italic;margin-top:2px;line-height:1.3;opacity:.85}
+.card .cwarn{position:absolute;top:5px;right:7px;font-size:9px;background:var(--accent);color:#fff;border-radius:10px;padding:1px 6px;font-weight:700}
+.addbtn{background:var(--surface2);border:1.5px dashed #d6d3d1;color:var(--ink3);border-radius:8px;padding:8px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;font-family:var(--font)}.addbtn:hover{background:var(--blue-soft);border-color:var(--blue);color:var(--blue)}
+.lemb-section{max-width:1440px;margin:18px auto 0;padding:0 12px 30px}
+.lemb-box{background:var(--surface);border:1.5px solid #fcd34d;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm)}
+.lemb-hdr{background:linear-gradient(135deg,#fffbeb,#fef3c7);padding:10px 16px;display:flex;align-items:center;gap:8px;cursor:pointer;border-bottom:1px solid #fde68a;transition:background .15s}.lemb-hdr:hover{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+.lemb-hdr h3{font-size:12px;font-weight:700;color:#92400e;flex:1}
+.lemb-hdr .lemb-cnt{background:#f59e0b;color:#fff;border-radius:20px;padding:2px 10px;font-size:10px;font-weight:800}
+.lemb-hdr .lemb-tog{font-size:13px;color:var(--amber);transition:transform .25s}.lemb-hdr .lemb-tog.open{transform:rotate(180deg)}
+.lemb-body{padding:12px 16px;display:flex;flex-direction:column;gap:8px}.lemb-body.closed{display:none}
+.lemb-day-block{background:var(--amber-soft);border-radius:8px;border-left:3px solid #f59e0b;padding:10px 14px}
+.lemb-day-title{font-size:11px;font-weight:700;color:var(--amber);margin-bottom:6px}
+.lemb-item{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.lemb-item-icon{font-size:12px;flex-shrink:0;color:#f59e0b}
+.lemb-item input[type=text]{flex:1;border:1px solid #fde68a;border-radius:6px;padding:5px 9px;font-size:12px;background:#fff;font-family:var(--font);outline:none;transition:border-color .15s}.lemb-item input[type=text]:focus{border-color:#f59e0b}
+.btn-del-lemb{background:none;border:none;color:#ef4444;cursor:pointer;font-size:13px;padding:2px 4px;line-height:1;opacity:.6;transition:opacity .15s}.btn-del-lemb:hover{opacity:1}
+.lemb-add-row{display:flex;align-items:center;gap:8px;margin-top:6px}
+.lemb-add-row input[type=text]{flex:1;border:1px dashed #fde68a;border-radius:6px;padding:5px 9px;font-size:12px;background:#fff;font-family:var(--font);outline:none;transition:all .15s}.lemb-add-row input[type=text]:focus{border-color:#f59e0b;border-style:solid}
+.btn-add-lemb{background:#f59e0b;color:#fff;border:none;border-radius:6px;padding:5px 14px;cursor:pointer;font-size:12px;font-weight:700;white-space:nowrap;font-family:var(--font);transition:background .15s}.btn-add-lemb:hover{background:#d97706}
+.month-wrap{max-width:1140px;margin:0 auto;padding:0 14px 30px;overflow-x:auto}
+.month-table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-md);table-layout:fixed}
+.month-table thead tr{background:var(--navy)}.month-table thead th{color:#94a3b8;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:11px 6px;text-align:center;border:none}
+.month-table tbody td{vertical-align:top;border:1px solid #f1f5f9;padding:6px 5px;min-height:100px;height:110px;cursor:pointer;transition:background .1s;width:calc(100%/7)}
+.month-table tbody td:hover{background:#fafaf9}.month-table tbody td.emp{background:var(--surface2);cursor:default}.month-table tbody td.emp:hover{background:var(--surface2)}
+.month-table tbody td.we{background:var(--surface2)}.month-table tbody td.spc{background:#fefce8}
+.mday-num{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.mday-n{font-size:12px;font-weight:700;color:var(--ink2);width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:50%}.mday-n.today{background:var(--accent);color:#fff}.mday-n.we{color:var(--ink3)}
+.mday-badges{display:flex;gap:2px}
+.mev{font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.mev-magic{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:#fefce8;color:var(--amber);border-left:2px solid #f59e0b;line-height:1.3}
+.mmore{font-size:9px;color:var(--ink3);padding-left:2px;margin-top:1px}
+.escala-wrap{max-width:920px;margin:0 auto;padding:18px 14px 40px}
+.escala-search{background:var(--surface);border-radius:var(--radius-lg);padding:22px;box-shadow:var(--shadow-md);margin-bottom:20px}
+.escala-search h2{font-size:17px;font-weight:700;color:var(--ink);font-family:var(--font-d);margin-bottom:4px}
+.escala-search p{font-size:12px;color:var(--ink2);margin-bottom:14px}
+.search-row{display:flex;gap:10px;align-items:center}
+.search-row input{flex:1;border:1.5px solid #e7e5e4;border-radius:8px;padding:10px 14px;font-size:14px;font-family:var(--font);outline:none;transition:border-color .15s}.search-row input:focus{border-color:var(--navy)}
+.search-row button{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 22px;cursor:pointer;font-size:13px;font-weight:700;font-family:var(--font);transition:background .15s}.search-row button:hover{background:var(--navy-light)}
+.escala-results{display:flex;flex-direction:column;gap:10px}
+.escala-empty{text-align:center;padding:40px;color:var(--ink3);font-size:14px}
+.escala-card{background:var(--surface);border-radius:var(--radius);padding:12px 16px;box-shadow:var(--shadow-sm);border-left:4px solid #d6d3d1;display:flex;align-items:flex-start;gap:14px;transition:all .15s}.escala-card:hover{box-shadow:var(--shadow-md)}
+.escala-date{min-width:90px;flex-shrink:0}.escala-date .eday{font-size:11px;font-weight:700;color:var(--ink2);text-transform:uppercase}.escala-date .enum{font-size:22px;font-weight:800;color:var(--ink);line-height:1}.escala-date .emon{font-size:11px;color:var(--ink3)}
+.escala-info{flex:1}.escala-info .enm{font-size:14px;font-weight:700;color:var(--ink)}.escala-info .ecat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;display:inline-block;margin:3px 0}.escala-info .etema{font-size:12px;color:var(--ink2);font-style:italic}.escala-info .eloc,.escala-info .ehr{font-size:11px;color:var(--ink3)}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(4px)}.ov.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.mhd{background:var(--navy);padding:16px 20px;border-radius:var(--radius-lg) var(--radius-lg) 0 0;display:flex;align-items:flex-start;gap:12px;position:sticky;top:0;z-index:5}
+.mhd-txt{flex:1}.mhd h3{color:#fff;font-size:15px;font-family:var(--font-d)}.mhd p{color:#94a3b8;font-size:11px;margin-top:2px}
+.mhd-btns{display:flex;gap:6px;flex-shrink:0}
+.bsv{background:#22c55e;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-weight:700;font-size:12px;font-family:var(--font);transition:background .15s}.bsv:hover{background:#16a34a}
+.bdl{background:#ef4444;color:#fff;border:none;border-radius:8px;padding:8px 12px;cursor:pointer;font-weight:700;font-size:12px;font-family:var(--font);transition:background .15s}.bdl:hover{background:#dc2626}
+.bx{background:rgba(255,255,255,.1);border:none;color:#fff;border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:background .15s}.bx:hover{background:rgba(255,255,255,.2)}
+.mbody{padding:18px;display:flex;flex-direction:column;gap:12px}
+.fld{display:flex;flex-direction:column;gap:4px}.fld label{font-size:10px;color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.fld input,.fld select,.fld textarea{border:1.5px solid #e7e5e4;border-radius:8px;padding:9px 11px;font-size:13px;font-family:var(--font);outline:none;transition:border-color .15s;width:100%;background:#fff}.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue)}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}.sov.open{display:flex}
+.sbox{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:540px;padding:28px;box-shadow:var(--shadow-lg)}
+.sbox h2{font-size:18px;font-weight:800;color:var(--ink);font-family:var(--font-d);margin-bottom:6px}
+.sbox>p{color:var(--ink2);font-size:13px;line-height:1.6;margin-bottom:16px}
+.sstep{background:var(--surface2);border-radius:9px;padding:12px 14px;margin-bottom:10px;border-left:3px solid var(--blue)}
+.sstep strong{font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:.3px}.sstep p{margin:3px 0 0;color:var(--ink2);font-size:12px;line-height:1.5}
+.sstep code{background:#e7e5e4;padding:1px 5px;border-radius:4px;font-size:11px}.sstep a{color:var(--blue);font-weight:600}
+.sactions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.bprim{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-weight:700;font-size:13px;flex:1;font-family:var(--font);transition:background .15s}.bprim:hover{background:var(--navy-light)}
+.bsec{background:var(--surface2);color:var(--ink2);border:1px solid #e7e5e4;border-radius:8px;padding:10px 18px;cursor:pointer;font-weight:600;font-size:13px;font-family:var(--font);transition:all .15s}.bsec:hover{background:#e7e5e4}
+.bsec.danger{color:var(--accent);border-color:#fca5a5}.bsec.danger:hover{background:var(--accent-soft)}
+.fb-status{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:12px;display:none}
+.fb-status.ok{display:block;background:var(--green-soft);color:var(--green);border:1px solid #bbf7d0}
+.fb-status.err{display:block;background:var(--accent-soft);color:var(--accent);border:1px solid #fca5a5}
+.fb-status.loading{display:block;background:var(--surface2);color:var(--ink2);border:1px solid #e7e5e4}
+.toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:11px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:var(--shadow-lg)}.toast.show{opacity:1;transform:translateY(0)}
+@media(max-width:600px){.frow{grid-template-columns:1fr}.sactions{flex-direction:column}.hdr-top{gap:10px}.nav-bar{gap:8px;padding:10px 12px}}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="hdr-inner">
+  <div class="hdr-top">
+    <div class="logo">N</div>
+    <div><h1>Nova Acrópole — BH</h1><p class="subtitle">Programação Completa · Abril – Julho 2026</p></div>
+    <div class="sync-area">
+      <div class="sync-dot" id="syncDot"></div>
+      <span class="sync-lbl" id="syncLbl">local</span>
+      <button class="btn-sync-cfg" onclick="openSetup()">🔥 Firebase</button>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" onclick="setView('semana',this)">📅 Semana</button>
+    <button class="tab" onclick="setView('mes',this)">📆 Mês</button>
+    <button class="tab" onclick="setView('escala',this)">👤 Minha Escala</button>
+  </div>
+</div></div>
+<div class="legend"><div class="legend-row" id="legRow"><span class="legend-label">Categorias:</span></div></div>
+<div id="vSemana">
+  <div class="miss-panel"><div class="miss-box" id="missingBox" style="display:none">
+    <div class="miss-hdr" onclick="toggleMiss()"><h3>⚠ Vagas em aberto esta semana</h3><span class="cnt" id="missCnt">0</span><span class="tog open" id="missTog">▼</span></div>
+    <div class="miss-body" id="missBody"></div>
+  </div></div>
+  <div class="nav-bar">
+    <button class="nbtn" onclick="navWeek(-1)">‹ Anterior</button>
+    <button class="btn-today" onclick="goToday()">Hoje</button>
+    <span class="nav-lbl" id="wkLabel"></span>
+    <button class="nbtn" onclick="navWeek(1)">Próxima ›</button>
+  </div>
+  <div class="week-wrap"><div class="week-grid" id="weekGrid"></div></div>
+  <div class="lemb-section"><div class="lemb-box">
+    <div class="lemb-hdr" onclick="toggleLemb()"><h3>✨ Lembretes do Calendário Mágico desta semana</h3><span class="lemb-cnt" id="lembCnt">0</span><span class="lemb-tog open" id="lembTog">▼</span></div>
+    <div class="lemb-body" id="lembBody"></div>
+  </div></div>
+</div>
+<div id="vMes" style="display:none">
+  <div class="nav-bar"><button class="nbtn" onclick="navMonth(-1)">‹ Anterior</button><span class="nav-lbl" id="mLabel"></span><button class="nbtn" onclick="navMonth(1)">Próximo ›</button></div>
+  <div class="month-wrap"><table class="month-table"><thead><tr><th>Dom</th><th>Seg</th><th>Ter</th><th>Qua</th><th>Qui</th><th>Sex</th><th>Sáb</th></tr></thead><tbody id="monthBody"></tbody></table></div>
+</div>
+<div id="vEscala" style="display:none"><div class="escala-wrap">
+  <div class="escala-search"><h2>Minha Escala — Abr–Jul 2026</h2><p>Digite seu nome para ver todas as atividades em que você está escalado.</p>
+    <div class="search-row"><input type="text" id="escalaInput" placeholder="Ex: Ricardo, Willy, Ana Laura…" oninput="debouncedEscala()"><button onclick="renderEscala()">Buscar</button></div>
+  </div><div class="escala-results" id="escalaResults"><div class="escala-empty">Digite um nome para começar</div></div>
+</div></div>
+<div class="ov" id="ov" onclick="if(event.target===this)closeModal()"><div class="modal">
+  <div class="mhd"><div class="mhd-txt"><h3 id="mTitle">Editar</h3><p id="mSub"></p></div>
+    <div class="mhd-btns"><button class="bsv" onclick="saveModal()">✓ Salvar</button><button class="bdl" id="btnDel" onclick="delModal()">🗑</button><button class="bx" onclick="closeModal()">×</button></div>
+  </div><div class="mbody" id="mBody"></div>
+</div></div>
+<div class="sov" id="setupOv" onclick="if(event.target===this)closeSetup()"><div class="sbox">
+  <h2>🔥 Configurar Firebase</h2>
+  <p>Conecte ao Firebase Realtime Database para sincronização em tempo real entre todos os usuários.</p>
+  <div class="sstep"><strong>Passo 1</strong><p>Acesse <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Crie um projeto → Vá em <strong>Build → Realtime Database</strong> → Crie banco em modo <strong>teste</strong>.</p></div>
+  <div class="sstep"><strong>Passo 2</strong><p>Copie a URL do banco (ex: <code>https://meu-projeto-default-rtdb.firebaseio.com</code>).</p></div>
+  <div class="sstep"><strong>Passo 3</strong><p>Cole abaixo e clique Conectar. Todos que usarem a mesma URL verão as mesmas edições.</p></div>
+  <div class="fld" style="margin-top:14px"><label>URL do Firebase Realtime Database</label><input id="cfgFbUrl" placeholder="https://meu-projeto-default-rtdb.firebaseio.com"></div>
+  <div class="fb-status" id="fbStatus"></div>
+  <div class="sactions">
+    <button class="bprim" onclick="saveSetup()">✓ Conectar</button>
+    <button class="bsec" onclick="closeSetup()">Usar só local</button>
+    <button class="bsec danger" onclick="clearSetup()">Desconectar</button>
+  </div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const CAT={
+  portaria:{label:"Portaria",color:"#c2410c",bg:"#fff7ed",order:0},recepcao:{label:"Recepção",color:"#15803d",bg:"#f0fdf4",order:1},
+  cafeteria:{label:"Cafeteria",color:"#7e22ce",bg:"#faf5ff",order:2},am:{label:"Artes Marc.",color:"#0369a1",bg:"#f0f9ff",order:3},
+  formacao:{label:"Formação",color:"#c2410c",bg:"#fffbeb",order:4},reuniao:{label:"Reunião",color:"#6b7280",bg:"#f9fafb",order:5},
+  teatro:{label:"Teatro",color:"#0f766e",bg:"#f0fdfa",order:6},cerimonia:{label:"Cerimônia",color:"#a16207",bg:"#fefce8",order:7},
+  aula:{label:"Aula",color:"#b91c1c",bg:"#fef2f2",order:8},especial:{label:"Especial",color:"#1d4ed8",bg:"#eff6ff",order:9},
+};
+const SALAS=["","HPB","Giordano Bruno","Hipátia","Auditório","Sri Ram","Mercúrio","Atena","Dojo","Biblioteca","Conselho","DSG","Pampulha","Outro"];
+const DAYLONG=["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+const MESES_PT=["Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro"];
+const QUARTERS=[{y:2026,m:3,label:"Abril 2026"},{y:2026,m:4,label:"Maio 2026"},{y:2026,m:5,label:"Junho 2026"},{y:2026,m:6,label:"Julho 2026"}];
+
+const WEEKLY={
+ 1:[{id:"sg_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Tiago Arruda da Cruz",loc:""},{id:"sg_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Ana Maria Resende Santos",loc:""},{id:"sg_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Débora Viana Salomão de Abreu",loc:""},{id:"sg_iaido",hr:"18:15",end:"19:15",nm:"I AI DO",cat:"am",per:"Ludmilla Grossi Furtado Saraiva",loc:""},{id:"sg_tai",hr:"18:15",end:"19:15",nm:"Tai Chi",cat:"am",per:"Catia de Castro Possas",loc:""},{id:"sg_nei",hr:"20:00",end:"21:30",nm:"Nei Kung",cat:"am",per:"Rafael Silva Carneiro",loc:""},{id:"sg_amon",hr:"19:03",end:"21:30",nm:"Amon LVI",cat:"aula",per:"",loc:"Auditório",key:"amon_lvi"},{id:"sg_sid",hr:"19:30",end:"21:30",nm:"Sidharta",cat:"aula",per:"",loc:"Giordano Bruno",key:"sidharta_seg"},{id:"sg_xes",hr:"19:30",end:"21:30",nm:"Xesóstris LV",cat:"aula",per:"",loc:"Hipátia",key:"xes_lv"}],
+ 2:[{id:"te_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Pedro Henrique Macedo Gomes",loc:""},{id:"te_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Alissandra Neves Silva",loc:""},{id:"te_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Laís de Freitas Rodarte",loc:""},{id:"te_esc",hr:"18:30",end:"19:30",nm:"Reunião Escolástica",cat:"reuniao",per:"Silvana Coelho",loc:"Sri Ram"},{id:"te_tea",hr:"19:00",end:"21:00",nm:"Ensaio Teatro",cat:"teatro",per:"Ana Laura de Araújo Santos",loc:"Dojo"},{id:"te_sid",hr:"19:30",end:"21:30",nm:"Sidharta",cat:"aula",per:"",loc:"Hipátia",key:"sidharta_ter"},{id:"te_rom",hr:"19:30",end:"21:30",nm:"Rômulo XIII",cat:"aula",per:"",loc:"HPB",key:"romulo_xiii"},{id:"te_eno",hr:"19:30",end:"21:30",nm:"Enoch",cat:"aula",per:"",loc:"Giordano Bruno",key:"enoch"},{id:"te_apis",hr:"19:30",end:"21:30",nm:"Apis XVII",cat:"aula",per:"",loc:"Auditório",key:"apis_xvii"}],
+ 3:[{id:"qa_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Luís Felipe Melo Lima",loc:""},{id:"qa_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Silvana Coelho",loc:""},{id:"qa_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Maria Angelina Santos",loc:""},{id:"qa_tai",hr:"18:15",end:"19:15",nm:"Tai Chi",cat:"am",per:"Laís de Freitas Rodarte",loc:"Auditório"},{id:"qa_ten",hr:"18:30",end:"19:30",nm:"Tênis de Mesa",cat:"am",per:"Tiago Arruda da Cruz",loc:"Dojo"},{id:"qa_bib",hr:"19:03",end:"21:30",nm:"Reunião Biblioteca",cat:"reuniao",per:"Pedro Henrique Macedo Gomes",loc:"Biblioteca"},{id:"qa_jan",hr:"18:30",end:"20:30",nm:"Janos",cat:"aula",per:"",loc:"HPB",key:"janos"},{id:"qa_isis",hr:"19:30",end:"21:30",nm:"Ísis",cat:"aula",per:"",loc:"Hipátia",key:"isis"},{id:"qa_anb",hr:"19:30",end:"21:30",nm:"Anubis LV",cat:"aula",per:"",loc:"Giordano Bruno",key:"anubis_lv"},{id:"qa_nuth",hr:"19:30",end:"21:30",nm:"Nuth LVI",cat:"aula",per:"",loc:"Auditório",key:"nuth_lvi"},{id:"qa_pamp",hr:"19:30",end:"21:30",nm:"Anubis LVI (Pampulha)",cat:"aula",per:"",loc:"Pampulha",key:"anubis_pamp"}],
+ 4:[{id:"qi_port",hr:"18:30",end:"21:30",nm:"Portaria",cat:"portaria",per:"Rogério Cozzi",loc:""},{id:"qi_rec",hr:"18:30",end:"21:30",nm:"Recepção",cat:"recepcao",per:"Idelma Aparecida Minelli",loc:""},{id:"qi_caf",hr:"18:30",end:"21:30",nm:"Cafeteria",cat:"cafeteria",per:"Maria Angelina Santos",loc:""},{id:"qi_iaido",hr:"18:15",end:"19:15",nm:"I AI DO",cat:"am",per:"Rafael Silva Carneiro",loc:"Dojo"},{id:"qi_nei",hr:"20:00",end:"21:30",nm:"Nei Kung",cat:"am",per:"Pedro Henrique Macedo Gomes",loc:"Dojo"},{id:"qi_liv",hr:"18:30",end:"19:30",nm:"Reunião Livraria",cat:"reuniao",per:"Pedro Henrique Macedo Gomes",loc:"Sri Ram"},{id:"qi_hil",hr:"19:30",end:"21:30",nm:"Hilarion",cat:"aula",per:"",loc:"Hipátia",key:"hilarion"},{id:"qi_pit",hr:"19:30",end:"21:30",nm:"Pitágoras",cat:"aula",per:"",loc:"Giordano Bruno",key:"pitagoras"},{id:"qi_amon",hr:"19:30",end:"21:30",nm:"Amon",cat:"aula",per:"",loc:"HPB",key:"amon"},{id:"qi_xes",hr:"19:30",end:"21:30",nm:"Xesóstris LVI (PFC)",cat:"aula",per:"",loc:"Auditório",key:"xes_lvi_pfc"}],
+ 5:[{id:"sx_ed",hr:"18:30",end:"19:30",nm:"Turma 1 ED",cat:"aula",per:"Ricardo Fernandes Vieira",loc:"Auditório"},{id:"sx_fv",hr:"19:30",end:"21:30",nm:"Reunião FV",cat:"reuniao",per:"Ricardo Fernandes Vieira",loc:"Auditório"}],
+ 6:[{id:"sa_port",hr:"08:30",end:"12:00",nm:"Portaria",cat:"portaria",per:"",loc:""},{id:"sa_rec",hr:"08:30",end:"12:00",nm:"Recepção",cat:"recepcao",per:"Letícia Estevam e Silva",loc:""},{id:"sa_tv1",hr:"09:00",end:"12:00",nm:"Távolas",cat:"am",per:"Alissandra Neves Silva",loc:"Auditório"},{id:"sa_tv2",hr:"09:00",end:"12:00",nm:"Távolas",cat:"am",per:"Alissandra Neves Silva",loc:"DSG"}],
+ 0:[{id:"do_rom",hr:"Variado",end:"",nm:"Rômulo (Domingo)",cat:"aula",per:"",loc:"",key:"romulo_dom"}],
+};
+
+const CLS={"2026-04-06":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"5ª e 6ª aula Transição"},amon_lvi:{p:"Ricardo",t:"Tema 3 - BG (2ª parte)"}},"2026-04-07":{sidharta_ter:{p:"Cátia",t:"Filosofia Moral"},enoch:{p:"Willy",t:"Filosofia Aplicada"},romulo_xiii:{p:"Ricardo",t:"Filosofia Aplicada"},apis_xvii:{p:"Rafael",t:"Psicologia"}},"2026-04-08":{isis:{p:"Helder",t:"Bastião do mês + Práticas"},anubis_lv:{p:"Ricardo",t:"Aula 12 - Curso Transição"},nuth_lvi:{p:"Ana Laura",t:"Tema 8 (substituição)"},anubis_pamp:{p:"Willy",t:"Tema 7"},janos:{p:"Ludmilla",t:""}},"2026-04-09":{hilarion:{p:"Willy",t:"Bastião do mês + Práticas"},pitagoras:{p:"Ricardo",t:"Psicologia"},amon:{p:"Ana Laura",t:"Tema 18"},xes_lvi_pfc:{p:"Rafael",t:"Tema 3 - BG (Parte 2)"}},"2026-04-11":{salomao:{p:"Dolores",t:""}},"2026-04-12":{romulo_dom:{p:"Silvana Dias",t:""}},"2026-04-13":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Aula Transição"},amon_lvi:{p:"Ludmilla",t:"Tema 4"}},"2026-04-14":{sidharta_ter:{p:"Willy",t:"Bastião mês + Práticas"},enoch:{p:"Helder",t:"Bastião do mês + Práticas"},romulo_xiii:{p:"Silvana C",t:"Bastião Mês + Práticas"},apis_xvii:{p:"Ricardo",t:"Bastião mês + Práticas"}},"2026-04-15":{isis:{p:"Cerimônia OINAB-S",t:""},anubis_lv:{p:"Ana Laura",t:"Aula de Fechamento"},nuth_lvi:{p:"Eduardo",t:"Tema 9"},anubis_pamp:{p:"Willy",t:"Tema 8"},janos:{p:"Rafael",t:""}},"2026-04-16":{hilarion:{p:"Dolores",t:"Simbologia Teológica"},pitagoras:{p:"Willy",t:"Bastião mês + Prática"},amon:{p:"Rafael",t:"Avaliação"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 4"}},"2026-04-20":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"Aula Transição"},amon_lvi:{p:"Ricardo",t:"Tema 5"}},"2026-04-25":{salomao:{p:"Dolores",t:"Semana da Mãe Terra"}},"2026-04-26":{romulo_dom:{p:"Dolores",t:""}},"2026-04-27":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"??????",t:"Aula Transição"},amon_lvi:{p:"Ludmilla",t:"Tema 6"}},"2026-04-28":{sidharta_ter:{p:"Cátia",t:"Filosofia Moral"},enoch:{p:"Willy",t:"Psicologia"},romulo_xiii:{p:"Silvana C",t:"Psicologia"},apis_xvii:{p:"Rafael",t:"Psicologia"}},"2026-04-29":{isis:{p:"Helder",t:"Psicologia"},anubis_lv:{p:"Ana Laura",t:"Virtudes"},nuth_lvi:{p:"Rafael",t:"Tema 10"},anubis_pamp:{p:"Willy",t:"Tema 9"},janos:{p:"Ludmilla",t:""}},"2026-04-30":{hilarion:{p:"Willy",t:"Simbologia Teológica"},pitagoras:{p:"Silvana Coelho",t:"Psicologia"},amon:{p:"Rafael",t:"Entrega dos Certificados"},xes_lvi_pfc:{p:"????????",t:"Tema 5"}},"2026-05-04":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"Aula Transição"},amon_lvi:{p:"Ricardo",t:"Avaliação"}},"2026-05-05":{sidharta_ter:{p:"Willy",t:"Simbologia Teológica"},enoch:{p:"Helder",t:"ISO"},romulo_xiii:{p:"Ricardo",t:"Bastião + Práticas"},apis_xvii:{p:"Rafael",t:"Bastião mês + Práticas"}},"2026-05-06":{isis:{p:"Helder",t:"Bastião do mês + Práticas"},anubis_lv:{p:"Ricardo",t:"Virtudes"},nuth_lvi:{p:"Eduardo",t:"Tema 11"},anubis_pamp:{p:"Willy",t:"Tema 10"},janos:{p:"Ludmilla",t:""}},"2026-05-07":{hilarion:{p:"Dolores",t:"Bastião do mês + Práticas"},pitagoras:{p:"Willy",t:"ISO"},amon:{p:"Ricardo",t:"Aula 1 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 6"}},"2026-05-09":{salomao:{p:"Dolores",t:""}},"2026-05-11":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Aula Transição"},amon_lvi:{p:"Ludmilla",t:"Tema 7"}},"2026-05-12":{sidharta_ter:{p:"Cátia",t:"Bastião do mês + Prática"},enoch:{p:"Willy",t:"Filosofia Aplicada"},romulo_xiii:{p:"Silvana C",t:"Psicologia"},apis_xvii:{p:"Ricardo",t:"Filosofia Aplicada"}},"2026-05-13":{isis:{p:"Ricardo",t:"Filosofia Aplicada"},anubis_lv:{p:"Ana Laura",t:"Virtudes"},nuth_lvi:{p:"Rafael",t:"Tema 12"},anubis_pamp:{p:"Willy",t:"Tema 11"},janos:{p:"Ludmilla",t:""}},"2026-05-14":{hilarion:{p:"Willy",t:"Filosofia Moral"},pitagoras:{p:"Ricardo",t:"Bastião mês + Prática"},amon:{p:"Rafael",t:"Aula 2 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Avaliação"}},"2026-05-17":{romulo_dom:{p:"Silvana Dias",t:""}},"2026-05-18":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"Aula de fechamento"},amon_lvi:{p:"Ricardo",t:"Tema 8"}},"2026-05-20":{isis:{p:"Helder",t:"ISO"},anubis_lv:{p:"União c/ Xesóstris",t:""},nuth_lvi:{p:"Eduardo",t:"Avaliação"},anubis_pamp:{p:"Willy",t:"Tema 12"},janos:{p:"Rafael",t:""}},"2026-05-21":{hilarion:{p:"Dolores",t:"Simbologia Teológica"},pitagoras:{p:"Willy",t:"Psicologia"},amon:{p:"Ana Laura",t:"Aula 3 - Transição"},xes_lvi_pfc:{p:"Rafael",t:"Tema 7"}},"2026-05-23":{salomao:{p:"Dolores",t:""}},"2026-05-25":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Psicologia"},amon_lvi:{p:"Ludmilla",t:"Tema 9"}},"2026-05-26":{sidharta_ter:{p:"Willy",t:"Simbologia Teológica"},enoch:{p:"Helder",t:"Bastião do mês + Práticas"},romulo_xiii:{p:"Ricardo",t:"Filosofia Aplicada"},apis_xvii:{p:"União c/ Rômulo",t:""}},"2026-05-27":{isis:{p:"Helder",t:"Psicologia"},nuth_lvi:{p:"Rafael",t:"Tema 13"},anubis_pamp:{p:"Willy",t:"Tema 13"},janos:{p:"Ludmilla",t:""}},"2026-05-28":{hilarion:{p:"Willy",t:"Filosofia Moral"},pitagoras:{p:"Ricardo",t:"Filosofia Aplicada"},amon:{p:"Rafael",t:"Aula 4 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 8"}},"2026-06-01":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"ISO"},amon_lvi:{p:"Ricardo",t:"Tema 10"}},"2026-06-02":{sidharta_ter:{p:"Cátia",t:"Filosofia Moral"},enoch:{p:"Willy",t:"ISO"},romulo_xiii:{p:"Rafael",t:"Psicologia"},apis_xvii:{p:"Silvana C",t:"Tema I"}},"2026-06-03":{isis:{p:"Ricardo",t:"Filosofia Aplicada"},nuth_lvi:{p:"Eduardo",t:"Tema 14"},anubis_pamp:{p:"Willy",t:"Avaliação"},janos:{p:"Rafael",t:""}},"2026-06-08":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Bastião mês + Práticas"},amon_lvi:{p:"Ludmilla",t:"Tema 11"}},"2026-06-09":{sidharta_ter:{p:"Willy",t:"Bastião do mês + Prática"},enoch:{p:"Helder",t:"Psicologia"},romulo_xiii:{p:"Ricardo",t:"Bastião Mês + Práticas"},apis_xvii:{p:"Rafael",t:"Tema 2"}},"2026-06-10":{isis:{p:"Helder",t:"Bastião do mês + Práticas"},nuth_lvi:{p:"Rafael",t:"Tema 15"},anubis_pamp:{p:"Willy",t:"Tema 14"},janos:{p:"Ludmilla",t:""}},"2026-06-11":{hilarion:{p:"Dolores",t:"Bastião do mês + Práticas"},pitagoras:{p:"Willy",t:"ISO"},amon:{p:"Ana Laura",t:"Aula 5 - Transição"},xes_lvi_pfc:{p:"Rafael",t:"Tema 9"}},"2026-06-13":{salomao:{p:"Dolores",t:""}},"2026-06-14":{romulo_dom:{p:"Silvana Dias",t:""}},"2026-06-15":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"Filosofia Aplicada"},amon_lvi:{p:"Ricardo",t:"Tema 12"}},"2026-06-16":{sidharta_ter:{p:"Cátia",t:"Filosofia Moral"},enoch:{p:"Willy",t:"Filosofia Aplicada"},romulo_xiii:{p:"Rafael",t:"Psicologia"},apis_xvii:{p:"Silvana C",t:"Tema 3 BG (1ª Parte)"}},"2026-06-17":{isis:{p:"Helder",t:"ISO"},nuth_lvi:{p:"Eduardo",t:"Tema 16"},anubis_pamp:{p:"Willy",t:"Tema 15"},janos:{p:"Rafael",t:""}},"2026-06-18":{hilarion:{p:"Willy",t:"Filosofia Moral"},pitagoras:{p:"Ricardo",t:"Psicologia"},amon:{p:"Rafael",t:"Aula 6 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 10"}},"2026-06-20":{salomao:{p:"Dolores",t:""}},"2026-06-22":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Psicologia"},amon_lvi:{p:"Ludmilla",t:"Tema 13"}},"2026-06-23":{sidharta_ter:{p:"Willy",t:"Simbologia Teológica"},enoch:{p:"Helder",t:"Bastião mês + Práticas"},romulo_xiii:{p:"Ricardo",t:"ISO"},apis_xvii:{p:"Rafael",t:"Tema 3 BG (2ª Parte)"}},"2026-06-24":{isis:{p:"Helder",t:"Psicologia"},nuth_lvi:{p:"Rafael",t:"Tema 17"},anubis_pamp:{p:"Willy",t:"Tema 16"},janos:{p:"Ludmilla",t:""}},"2026-06-25":{hilarion:{p:"Dolores",t:"Simbologia Teológica"},pitagoras:{p:"Willy",t:"Bastião do mês + Práticas"},amon:{p:"Ana Laura",t:"Aula 7 - Transição"},xes_lvi_pfc:{p:"Rafael",t:"Tema 11"}},"2026-06-29":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"ISO"},amon_lvi:{p:"Ricardo",t:"Avaliação"}},"2026-06-30":{sidharta_ter:{p:"Cátia",t:"Filosofia Moral"},enoch:{p:"Willy",t:"ISO"},romulo_xiii:{p:"Rafael",t:"Psicologia"},apis_xvii:{p:"Silvana C",t:"Tema 4"}},"2026-07-01":{isis:{p:"Ricardo",t:"Filosofia Aplicada"},nuth_lvi:{p:"Eduardo",t:"Tema 18"},anubis_pamp:{p:"Willy",t:"Tema 17"},janos:{p:"Rafael",t:""}},"2026-07-02":{hilarion:{p:"Willy",t:"Filosofia Moral"},pitagoras:{p:"Ricardo",t:"Filosofia Aplicada"},amon:{p:"Rafael",t:"Aula 8 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 12"}},"2026-07-04":{salomao:{p:"Dolores",t:""}},"2026-07-06":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ricardo",t:"Bastião mês + Práticas"},amon_lvi:{p:"Ludmilla",t:"Tema 14"}},"2026-07-07":{sidharta_ter:{p:"Willy",t:"Simbologia Teológica"},enoch:{p:"Helder",t:"Psicologia"},romulo_xiii:{p:"Ricardo",t:"Filosofia Aplicada"},apis_xvii:{p:"Rafael viagem??",t:"Tema 5"}},"2026-07-08":{isis:{p:"Helder",t:"Bastião do mês + Práticas"},nuth_lvi:{p:"Rafael",t:"Avaliação"},anubis_pamp:{p:"Willy",t:"Tema 18"},janos:{p:"Ludmilla",t:""}},"2026-07-09":{hilarion:{p:"Dolores",t:"Bastião do mês + Práticas"},pitagoras:{p:"Willy",t:"ISO"},amon:{p:"Ana Laura",t:"Aula 9 - Transição"},xes_lvi_pfc:{p:"Rafael",t:"Avaliação"}},"2026-07-13":{sidharta_seg:{p:"José Carlos",t:""},xes_lv:{p:"Ludmilla",t:"Filosofia Aplicada"},amon_lvi:{p:"Ricardo",t:"Tema 15"}},"2026-07-14":{sidharta_ter:{p:"Cátia",t:"Bastião do mês + Prática"},enoch:{p:"Willy",t:"Bastião mês + Práticas"},romulo_xiii:{p:"Rafael",t:"Bastião Mês + Práticas"},apis_xvii:{p:"Silvana C",t:"Tema 6"}},"2026-07-15":{isis:{p:"Helder",t:"ISO"},nuth_lvi:{p:"Eduardo",t:"Entrega dos certificados"},anubis_pamp:{p:"Willy",t:"Avaliação"},janos:{p:"Rafael",t:""}},"2026-07-16":{hilarion:{p:"Willy",t:"Filosofia Moral"},pitagoras:{p:"Ricardo",t:"Psicologia"},amon:{p:"Rafael",t:"Aula 10 - Transição"},xes_lvi_pfc:{p:"Ana Laura",t:"Tema 13"}},"2026-07-18":{salomao:{p:"Dolores",t:""}},"2026-07-26":{romulo_dom:{p:"Dolores",t:"Encontro com Mônica Dias"}}};
+
+/* DS — consolidated, no duplicates */
+const _esc=[{id:"sa_fi",hr:"08:00",end:"",nm:"Formação Instrutores",cat:"formacao",per:"Ricardo Fernandes Vieira",loc:"Conselho"},{id:"sa_i16",hr:"08:00",end:"",nm:"Ísis XVI",cat:"aula",per:"Antonia Dolores Belico Soares",loc:"Hipátia"},{id:"sa_cl",hr:"10:00",end:"12:00",nm:"Clube de Leitura",cat:"reuniao",per:"Dolores",loc:"Dojo"},{id:"sa_es",hr:"14:00",end:"18:00",nm:"Encontro Secretarias",cat:"reuniao",per:"Ludmilla Grossi Furtado Saraiva",loc:"Auditório"},{id:"sa_fa",hr:"14:30",end:"15:30",nm:"Formação Assistentes",cat:"formacao",per:"Ricardo Fernandes Vieira",loc:"Hipátia"}];
+const _sal={id:"sa_sal",hr:"09:30",end:"12:00",nm:"Salomão",cat:"aula",per:"",loc:"",key:"salomao"};
+const DS={};
+["2026-04-11","2026-04-25","2026-05-09","2026-05-23","2026-06-13","2026-06-20","2026-07-04","2026-07-18"].forEach(d=>{if(!DS[d])DS[d]=[];DS[d].push({..._sal});});
+["2026-04-11","2026-05-30","2026-06-20","2026-07-18"].forEach(d=>{if(!DS[d])DS[d]=[];_esc.forEach(a=>DS[d].push({...a}));});
+["2026-04-12","2026-04-26","2026-05-17","2026-06-14","2026-07-26"].forEach(d=>{DS[d]=[{id:"do_rom",hr:"Variado",end:"",nm:"Rômulo (Domingo)",cat:"aula",per:"",loc:"",key:"romulo_dom"}];});
+DS["2026-05-19"]=[{id:"te_form",hr:"",end:"",nm:"🎓 FORMATURA",cat:"especial",per:"Rafael / Silvana Coelho",loc:""}];
+
+const SPEC={"2026-04-21":{emoji:"🏖️",label:"Feriado — Tiradentes"},"2026-04-22":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-04-23":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-04-25":{emoji:"🌿",label:"Semana da Mãe Terra"},"2026-05-19":{emoji:"🎓",label:"Formatura"},"2026-06-04":{emoji:"🏖️",label:"Feriado — Corpus Christi"},"2026-07-20":{emoji:"🌴",label:"Recesso de Julho"}};
+
+const MAGIC_BASE={"2026-04-03":["Feriado Semana Santa","Trilha Ibitipoca - Passeio Ecológico"],"2026-04-04":["Trilha Ibitipoca - Passeio Ecológico"],"2026-04-05":["Trilha Ibitipoca - Passeio Ecológico"],"2026-04-09":["Palestra: A Sabedoria secreta da Natureza"],"2026-04-11":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Voluntariado Bora Plantar"],"2026-04-12":["Aula de História da Filosofia Moderna","Formação de Dirigentes BH 14h30–17h30","Voluntariado Esperancestas","Oficina Nacional de Contos"],"2026-04-15":["Aniversário OINAB-S — celebrar em todas as filiais"],"2026-04-16":["Formatura Turma Anúbis (quinta)"],"2026-04-18":["MAM - Enc. Estadual GM com Chefe Nacional","Provacionismo - Filosofilme","Encontro Damas Filial"],"2026-04-19":["MAM - Enc. Estadual GM com Chefe Nacional"],"2026-04-21":["Feriado Tiradentes"],"2026-04-22":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-23":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-24":["Semana da Mãe Terra / RIMM Guatemala"],"2026-04-25":["Dia da Mãe Terra / RIMM Guatemala"],"2026-04-26":["RIMM Guatemala"],"2026-05-01":["Feriado Dia do Trabalho","Passeio Trilha Lapinha × Tabuleiro"],"2026-05-02":["Passeio Trilha Lapinha × Tabuleiro"],"2026-05-03":["Passeio Trilha Lapinha × Tabuleiro"],"2026-05-07":["Aula de Abertura Lourdes"],"2026-05-08":["Cerimônia do Lotus Branco"],"2026-05-09":["Reunião CN — 8h30 às 18h, sede Herculano"],"2026-05-10":["Dia das Mães"],"2026-05-12":["Palestra: Dor e crescimento — superando crises"],"2026-05-16":["MAM - Enc. Estadual de FFVV"],"2026-05-17":["MAM - Enc. Estadual de FFVV"],"2026-05-23":["Bandeirante Nacional","Apreciação Adagio","Oficina de Resenha Literária"],"2026-05-24":["Bandeirante Nacional"],"2026-05-27":["Palestra: Mito da Caverna de Platão"],"2026-05-30":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Voluntariado Bora Plantar"],"2026-05-31":["Aula Turma Nacional — CN Online","Formação de Dirigentes BH 14h30–17h30","Voluntariado Esperancestas"],"2026-06-04":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-05":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-06":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-07":["Acampamento Nac. FFVV — Módulo São Jorge"],"2026-06-09":["Palestra: A Nobreza da Competição — O Atleta em sua Melhor Versão"],"2026-06-13":["MAM - Enc. FFVV BH/DIV — Curso Observação Céu","Oficina de Manualidades"],"2026-06-14":["MAM - Enc. FFVV BH/DIV — Curso Observação Céu"],"2026-06-20":["Sábado Escolástico — Reunião Assistentes 14h–18h","Festa Junina","Clube da Leitura","Voluntariado Bora Plantar"],"2026-06-21":["Solstício de Inverno","Reunião Semestral 14h"],"2026-06-23":["Formatura Turma Xesóstris (segunda)"],"2026-06-27":["Dia das Artes"],"2026-06-28":["Aula Turma Nacional — CN Online","Voluntariado Esperancestas"],"2026-07-04":["Bandeirante Nacional — Evento Anual Janos","Provacionismo — Passeio Ecológico"],"2026-07-05":["Bandeirante Nacional — Evento Anual Janos"],"2026-07-08":["Evento Nacional do Voluntariado","Palestra: Como se educar para conquistar a felicidade?"],"2026-07-09":["Evento Nacional do Voluntariado"],"2026-07-10":["Evento Nacional do Voluntariado"],"2026-07-11":["Evento Nacional do Voluntariado — Aniversário 69 anos OINA","Apreciação: Senhor dos Anéis"],"2026-07-12":["Evento Nacional do Voluntariado — Aniversário 69 anos OINA"],"2026-07-15":["Brinde Aniversário OINA 69 anos na Filial"],"2026-07-18":["Sábado Escolástico — Reunião Assistentes 14h–18h","Clube da Leitura","Treino de Incêndio Filial"],"2026-07-19":["Reunião Semestral Online"],"2026-07-25":["MAM - Enc. GF Estadual com Chefe Nacional"],"2026-07-26":["Aula de História da Filosofia Moderna","MAM - Enc. GF Estadual com Chefe Nacional"]};
+
+/* STATE */
+let overrides=JSON.parse(localStorage.getItem("na_ov3")||"{}"),userAdds=JSON.parse(localStorage.getItem("na_ua3")||"{}"),lembretes=JSON.parse(localStorage.getItem("na_lemb")||"{}");
+let wkStart=getWeekStart(new Date()),mIdx=0,curView="semana",modalCtx=null,missOpen=true,lembOpen=true;
+let FB_URL=localStorage.getItem("na_fb_url")||"",fbPoll=null;
+
+/* FIREBASE SYNC */
+function setSyncStatus(s,t){const d=document.getElementById("syncDot");d.className="sync-dot"+(s?" "+s:"");document.getElementById("syncLbl").textContent=t;}
+function fbPath(p){return FB_URL.replace(/\/$/,"")+"/na_cal/"+p+".json";}
+async function fbPush(){if(!FB_URL)return;setSyncStatus("syncing","salvando…");try{const r=await fetch(fbPath("data"),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({overrides,userAdds,lembretes,_ts:Date.now()})});if(r.ok){setSyncStatus("ok","sincronizado ✓");showToast("Sincronizado!");}else setSyncStatus("err","erro");}catch(e){setSyncStatus("err","sem conexão");}}
+async function fbPull(silent){if(!FB_URL)return;if(!silent)setSyncStatus("syncing","atualizando…");try{const r=await fetch(fbPath("data"));if(!r.ok)return;const d=await r.json();if(!d)return;if(d.overrides!==undefined)overrides=d.overrides||{};if(d.userAdds!==undefined)userAdds=d.userAdds||{};if(d.lembretes!==undefined)lembretes=d.lembretes||{};saveLocal();refreshAll();setSyncStatus("ok","sincronizado ✓");}catch(e){setSyncStatus("err","falha");}}
+function fbStart(){fbStop();if(!FB_URL)return;fbPull(false);fbPoll=setInterval(()=>fbPull(true),10000);setSyncStatus("ok","conectado");}
+function fbStop(){if(fbPoll){clearInterval(fbPoll);fbPoll=null;}}
+function saveLocal(){localStorage.setItem("na_ov3",JSON.stringify(overrides));localStorage.setItem("na_ua3",JSON.stringify(userAdds));localStorage.setItem("na_lemb",JSON.stringify(lembretes));}
+async function saveAndSync(){saveLocal();if(FB_URL)await fbPush();}
+
+function openSetup(){document.getElementById("cfgFbUrl").value=FB_URL;document.getElementById("setupOv").classList.add("open");document.getElementById("fbStatus").className="fb-status";}
+function closeSetup(){document.getElementById("setupOv").classList.remove("open");}
+async function saveSetup(){const url=document.getElementById("cfgFbUrl").value.trim();const s=document.getElementById("fbStatus");if(!url){s.className="fb-status err";s.textContent="Cole a URL do Firebase.";return;}s.className="fb-status loading";s.textContent="Testando conexão…";try{const r=await fetch(url.replace(/\/$/,"")+"/na_cal/ping.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ok:true})});if(!r.ok)throw new Error("HTTP "+r.status);FB_URL=url;localStorage.setItem("na_fb_url",FB_URL);s.className="fb-status ok";s.textContent="✓ Conectado!";fbStart();await fbPush();setTimeout(closeSetup,1200);}catch(e){s.className="fb-status err";s.textContent="✗ Falha. Verifique URL e modo teste. ("+e.message+")";}}
+function clearSetup(){FB_URL="";localStorage.removeItem("na_fb_url");fbStop();setSyncStatus("","local");closeSetup();showToast("Desconectado.");}
+
+/* HELPERS */
+function dk(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
+function dkYMD(y,m,d){return`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;}
+function getWeekStart(d){const t=new Date(d);t.setHours(0,0,0,0);const w=t.getDay();t.setDate(t.getDate()-(w===0?6:w-1));return t;}
+function addDays(d,n){const r=new Date(d);r.setDate(r.getDate()+n);return r;}
+function fmtDate(d){return d.toLocaleDateString("pt-BR",{day:"2-digit",month:"2-digit"});}
+function fmtLong(d){return d.toLocaleDateString("pt-BR",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});}
+function sortActs(a){return[...a].sort((x,y)=>{const xo=(CAT[x.cat]||CAT.aula).order,yo=(CAT[y.cat]||CAT.aula).order;return xo!==yo?xo-yo:(x.hr||"").localeCompare(y.hr||"");});}
+
+function getActivities(ds){
+  const d=new Date(ds+"T12:00:00"),dow=d.getDay(),cls=CLS[ds]||{},ov=overrides[ds]||{},ua=userAdds[ds]||[];
+  let raw=[];
+  (WEEKLY[dow]||[]).forEach(a=>{if(ov[a.id]&&ov[a.id]._deleted)return;let act={...a};if(act.key&&cls[act.key]){act.per=act.per||cls[act.key].p||"";act.tema=cls[act.key].t||"";}if(ov[act.id])Object.assign(act,ov[act.id]);raw.push(act);});
+  (DS[ds]||[]).forEach(a=>{if(ov[a.id]&&ov[a.id]._deleted)return;if(raw.find(r=>r.id===a.id))return;let act={...a};if(act.key&&cls[act.key]){act.per=act.per||cls[act.key].p||"";act.tema=cls[act.key].t||"";}if(ov[act.id])Object.assign(act,ov[act.id]);raw.push(act);});
+  ua.forEach(a=>raw.push({...a}));
+  return{acts:sortActs(raw),spec:SPEC[ds]};
+}
+function isWarn(a){return!a.per||a.per.includes("????");}
+
+/* MISSING */
+function toggleMiss(){missOpen=!missOpen;document.getElementById("missBody").classList.toggle("closed",!missOpen);document.getElementById("missTog").classList.toggle("open",missOpen);}
+function renderMissing(){
+  const days=Array.from({length:7},(_,i)=>addDays(wkStart,i)),groups=[];
+  days.forEach(day=>{const s=dk(day),{acts}=getActivities(s),bad=acts.filter(isWarn);if(bad.length)groups.push({day,dStr:s,bad});});
+  const box=document.getElementById("missingBox"),body=document.getElementById("missBody"),cnt=document.getElementById("missCnt"),total=groups.reduce((s,g)=>s+g.bad.length,0);
+  if(!total){box.style.display="none";return;}box.style.display="";cnt.textContent=total+" pendente"+(total>1?"s":"");
+  body.innerHTML="";body.classList.toggle("closed",!missOpen);
+  groups.forEach(({day,dStr,bad})=>{const div=document.createElement("div");div.className="miss-day";div.innerHTML=`<div class="miss-day-nm">${DAYLONG[day.getDay()]}<br><small style="font-weight:400;color:var(--ink2)">${fmtDate(day)}</small></div><div class="miss-items">${bad.map(a=>`<div class="miss-item"><span>•</span>${a.nm}${a.hr?" ("+a.hr+")":""}<button class="miss-fill" onclick="openEdit('${dStr}','${a.id}')">preencher →</button></div>`).join("")}</div>`;body.appendChild(div);});
+}
+
+/* LEMBRETES */
+function toggleLemb(){lembOpen=!lembOpen;document.getElementById("lembBody").classList.toggle("closed",!lembOpen);document.getElementById("lembTog").classList.toggle("open",lembOpen);}
+function renderLembretes(){
+  const days=Array.from({length:7},(_,i)=>addDays(wkStart,i)),body=document.getElementById("lembBody");body.innerHTML="";body.classList.toggle("closed",!lembOpen);let total=0;
+  days.forEach(day=>{const s=dk(day),items=lembretes[s]||[];total+=items.length;const bl=document.createElement("div");bl.className="lemb-day-block";bl.innerHTML=`<div class="lemb-day-title">${DAYLONG[day.getDay()]}, ${fmtDate(day)}</div>`;
+    items.forEach((ev,i)=>{const r=document.createElement("div");r.className="lemb-item";r.innerHTML=`<span class="lemb-item-icon">✨</span>`;const inp=document.createElement("input");inp.type="text";inp.value=ev;inp.onchange=()=>updateLemb(s,i,inp.value);inp.onblur=()=>updateLemb(s,i,inp.value);const del=document.createElement("button");del.className="btn-del-lemb";del.innerHTML="✕";del.onclick=()=>deleteLemb(s,i);r.appendChild(inp);r.appendChild(del);bl.appendChild(r);});
+    const ar=document.createElement("div");ar.className="lemb-add-row";const ni=document.createElement("input");ni.type="text";ni.placeholder="+ Novo lembrete…";ni.id=`nl_${s}`;ni.onkeydown=e=>{if(e.key==="Enter")addLemb(s);};const ab=document.createElement("button");ab.className="btn-add-lemb";ab.textContent="Adicionar";ab.onclick=()=>addLemb(s);ar.appendChild(ni);ar.appendChild(ab);bl.appendChild(ar);body.appendChild(bl);});
+  document.getElementById("lembCnt").textContent=total+" lembrete"+(total!==1?"s":"");
+}
+async function addLemb(s){const i=document.getElementById(`nl_${s}`),v=(i?.value||"").trim();if(!v)return;if(!lembretes[s])lembretes[s]=[];lembretes[s].push(v);i.value="";await saveAndSync();renderLembretes();}
+async function updateLemb(s,i,v){if(!lembretes[s])return;lembretes[s][i]=v.trim();await saveAndSync();}
+async function deleteLemb(s,i){if(!lembretes[s])return;lembretes[s].splice(i,1);if(!lembretes[s].length)delete lembretes[s];await saveAndSync();renderLembretes();}
+
+/* WEEK VIEW */
+function renderWeek(){
+  const today=new Date();today.setHours(0,0,0,0);const days=Array.from({length:7},(_,i)=>addDays(wkStart,i));
+  document.getElementById("wkLabel").textContent=`${fmtDate(days[0])} – ${fmtDate(days[6])}`;
+  let h="";days.forEach(day=>{const s=dk(day),{acts,spec}=getActivities(s),isT=day.getTime()===today.getTime(),dow=day.getDay();
+    h+=`<div class="day-col"><div class="day-hdr"><div class="dname">${DAYLONG[dow]}</div><div class="dnum${isT?" today-n":""}">${day.getDate()}</div><div style="font-size:10px;color:#94a3b8;margin-top:1px">${fmtDate(day).slice(3)}</div>${spec?`<div class="spec-lbl">${spec.emoji} ${spec.label}</div>`:""}</div>`;
+    acts.forEach(a=>{const c=CAT[a.cat]||CAT.aula,w=isWarn(a),t=a.hr?(a.end?`${a.hr}–${a.end}`:a.hr):"";
+      h+=`<div class="card${w?" missing":""}" style="border-left-color:${c.color};${w?"":"background:"+c.bg}" onclick="openEdit('${s}','${a.id}')">${t?`<div class="ctime">${t}</div>`:""}<div class="cname">${a.nm}</div><span class="ccat" style="background:${c.color}18;color:${c.color}">${c.label}</span><div class="cper${w?" empty":""}">${a.per||"⚠ sem responsável"}</div>${a.loc?`<div class="cloc">📍 ${a.loc}</div>`:""}${a.tema?`<div class="ctema">${a.tema}</div>`:""}${w?`<span class="cwarn">pendente</span>`:""}</div>`;});
+    h+=`<div class="addbtn" onclick="openAdd('${s}')">+ Adicionar atividade</div></div>`;});
+  document.getElementById("weekGrid").innerHTML=h;renderMissing();renderLembretes();
+}
+function navWeek(n){wkStart=addDays(wkStart,n*7);renderWeek();}
+function goToday(){wkStart=getWeekStart(new Date());renderWeek();}
+
+/* MONTH VIEW */
+function renderMonth(){
+  const{y,m,label}=QUARTERS[mIdx];document.getElementById("mLabel").textContent=label;
+  const dim=new Date(y,m+1,0).getDate(),fd=new Date(y,m,1).getDay(),today=new Date();today.setHours(0,0,0,0);
+  const tb=document.getElementById("monthBody");tb.innerHTML="";let cells=[];
+  for(let i=0;i<fd;i++)cells.push(null);for(let d=1;d<=dim;d++)cells.push(d);while(cells.length%7)cells.push(null);
+  for(let r=0;r<cells.length/7;r++){const tr=document.createElement("tr");for(let c=0;c<7;c++){const d=cells[r*7+c],td=document.createElement("td");
+    if(!d){td.className="emp";tr.appendChild(td);continue;}
+    const s=dkYMD(y,m,d),{acts,spec}=getActivities(s),mags=lembretes[s]||[],dt=new Date(y,m,d);dt.setHours(0,0,0,0);const isT=dt.getTime()===today.getTime(),isW=c===0||c===6,hm=acts.some(isWarn);
+    if(isW)td.classList.add("we");if(spec)td.classList.add("spc");td.onclick=()=>goWeek(s);
+    let h=`<div class="mday-num"><div class="mday-n${isT?" today":""}${isW&&!isT?" we":""}">${d}</div><div class="mday-badges">${mags.length?`<span style="font-size:10px;color:var(--amber)">✨</span>`:""}${hm?`<span style="font-size:9px;background:var(--accent);color:#fff;border-radius:10px;padding:0 4px">⚠</span>`:""}</div></div>`;
+    if(spec)h+=`<div style="font-size:9px;font-weight:700;color:#92400e;margin-bottom:2px">${spec.emoji} ${spec.label}</div>`;
+    acts.slice(0,3).forEach(a=>{const cat=CAT[a.cat]||CAT.aula;h+=`<div class="mev" style="background:${cat.color}18;color:${cat.color}">${a.nm}</div>`;});
+    if(mags.length)h+=`<div class="mev-magic">✨ ${mags[0]}</div>`;const ex=(acts.length>3?acts.length-3:0)+(mags.length>1?mags.length-1:0);if(ex)h+=`<div class="mmore">+${ex} mais</div>`;
+    td.innerHTML=h;tr.appendChild(td);}tb.appendChild(tr);}
+}
+function navMonth(n){mIdx=Math.max(0,Math.min(3,mIdx+n));renderMonth();}
+function goWeek(s){wkStart=getWeekStart(new Date(s+"T12:00:00"));setView("semana",document.querySelectorAll(".tab")[0]);renderWeek();}
+
+/* ESCALA — debounced */
+let _et=null;function debouncedEscala(){clearTimeout(_et);_et=setTimeout(renderEscala,300);}
+function renderEscala(){
+  const q=(document.getElementById("escalaInput").value||"").trim().toLowerCase(),res=document.getElementById("escalaResults");
+  if(!q){res.innerHTML=`<div class="escala-empty">Digite um nome para começar</div>`;return;}
+  const m=[];let cur=new Date(2026,3,1);const end=new Date(2026,6,31);
+  while(cur<=end){const s=dk(cur),{acts}=getActivities(s);acts.forEach(a=>{if((a.per||"").toLowerCase().includes(q))m.push({day:new Date(cur),act:a});});cur=new Date(cur.getFullYear(),cur.getMonth(),cur.getDate()+1);}
+  if(!m.length){res.innerHTML=`<div class="escala-empty">Nenhuma atividade para "<strong>${q}</strong>".</div>`;return;}
+  res.innerHTML=m.map(({day,act})=>{const c=CAT[act.cat]||CAT.aula,t=act.hr?(act.end?`${act.hr}–${act.end}`:act.hr):"";
+    return`<div class="escala-card" style="border-left-color:${c.color}"><div class="escala-date"><div class="eday">${DAYLONG[day.getDay()].slice(0,3)}</div><div class="enum">${day.getDate()}</div><div class="emon">${MESES_PT[day.getMonth()].slice(0,3)} 2026</div></div><div class="escala-info"><div class="enm">${act.nm}</div><span class="ecat" style="background:${c.color}18;color:${c.color}">${c.label}</span>${t?`<div class="ehr">🕐 ${t}</div>`:""}${act.loc?`<div class="eloc">📍 ${act.loc}</div>`:""}${act.tema?`<div class="etema">${act.tema}</div>`:""}</div></div>`;}).join("");
+}
+
+/* MODAL */
+function openEdit(ds,id){const{acts}=getActivities(ds),act=acts.find(a=>a.id===id);if(!act)return;modalCtx={dateStr:ds,actId:act.id,isNew:false};document.getElementById("mTitle").textContent="Editar Atividade";document.getElementById("mSub").textContent=fmtLong(new Date(ds+"T12:00:00"));document.getElementById("btnDel").style.display="";buildForm(act);document.getElementById("ov").classList.add("open");}
+function openAdd(ds){modalCtx={dateStr:ds,actId:"ua_"+Date.now(),isNew:true};document.getElementById("mTitle").textContent="Adicionar Atividade";document.getElementById("mSub").textContent=fmtLong(new Date(ds+"T12:00:00"));document.getElementById("btnDel").style.display="none";buildForm({hr:"",end:"",nm:"",cat:"aula",loc:"",per:"",tema:""});document.getElementById("ov").classList.add("open");}
+function buildForm(a){const so=SALAS.map(s=>`<option value="${s}"${(a.loc||"")===s?" selected":""}>${s||"— sem sala —"}</option>`).join(""),co=Object.entries(CAT).map(([k,v])=>`<option value="${k}"${a.cat===k?" selected":""}>${v.label}</option>`).join("");document.getElementById("mBody").innerHTML=`<div class="frow"><div class="fld"><label>Início</label><input id="fHr" value="${a.hr||""}" placeholder="19:30"></div><div class="fld"><label>Fim</label><input id="fEnd" value="${a.end||""}" placeholder="21:30"></div></div><div class="fld"><label>Nome da Atividade</label><input id="fNm" value="${a.nm||""}" placeholder="Nome"></div><div class="frow"><div class="fld"><label>Tipo</label><select id="fCat">${co}</select></div><div class="fld"><label>Sala</label><select id="fLoc">${so}</select></div></div><div class="fld"><label>Responsável / Professor</label><input id="fPer" value="${a.per||""}" placeholder="Nome"></div><div class="fld"><label>Tema / Observação</label><textarea id="fTema" rows="2">${a.tema||""}</textarea></div>`;}
+async function saveModal(){if(!modalCtx)return;const{dateStr:ds,actId:id,isNew}=modalCtx,nm=document.getElementById("fNm").value.trim();if(!nm){alert("Informe o nome.");return;}const data={hr:document.getElementById("fHr").value.trim(),end:document.getElementById("fEnd").value.trim(),nm,cat:document.getElementById("fCat").value,loc:document.getElementById("fLoc").value,per:document.getElementById("fPer").value.trim(),tema:document.getElementById("fTema").value.trim()};if(isNew){if(!userAdds[ds])userAdds[ds]=[];userAdds[ds].push({id,...data});}else{if(!overrides[ds])overrides[ds]={};overrides[ds][id]=data;}await saveAndSync();closeModal();refreshAll();}
+async function delModal(){if(!modalCtx||!confirm("Remover?"))return;const{dateStr:ds,actId:id}=modalCtx;if((userAdds[ds]||[]).find(a=>a.id===id))userAdds[ds]=(userAdds[ds]||[]).filter(a=>a.id!==id);else{if(!overrides[ds])overrides[ds]={};overrides[ds][id]={_deleted:true};}await saveAndSync();closeModal();refreshAll();}
+function closeModal(){document.getElementById("ov").classList.remove("open");modalCtx=null;}
+
+/* VIEW */
+function setView(v,btn){curView=v;document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));if(btn)btn.classList.add("on");["semana","mes","escala"].forEach(n=>{const el=document.getElementById("v"+n.charAt(0).toUpperCase()+n.slice(1));if(el)el.style.display=n===v?"":"none";});}
+
+/* LEGEND */
+function buildLegend(){const row=document.getElementById("legRow");Object.entries(CAT).forEach(([,c])=>{const s=document.createElement("span");s.className="lc";s.style.cssText=`background:${c.color}14;color:${c.color};border-color:${c.color}30`;s.textContent=c.label;row.appendChild(s);});const m=document.createElement("span");m.className="lc";m.style.cssText="background:#fefce8;color:#b45309;border-color:#f59e0b";m.textContent="✨ Cal. Mágico";row.appendChild(m);}
+
+function showToast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2800);}
+function refreshAll(){renderWeek();renderMonth();}
+
+/* INIT */
+(function(){
+  let changed=false;Object.entries(MAGIC_BASE).forEach(([s,items])=>{if(!lembretes[s]){lembretes[s]=[...items];changed=true;}});if(changed)saveLocal();
+  buildLegend();document.getElementById("vEscala").style.display="none";document.getElementById("vMes").style.display="none";
+  refreshAll();if(FB_URL)fbStart();else setSyncStatus("","local");
+})();
+</script>
+</body>
+</html>
