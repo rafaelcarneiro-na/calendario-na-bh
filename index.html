@@ -35,8 +35,7 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 .sync-dot.ok{background:#22c55e}.sync-dot.syncing{background:#f59e0b;animation:pulse .8s infinite}.sync-dot.err{background:#ef4444}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 .sync-lbl{color:#94a3b8;font-size:11px;font-weight:500}
-.btn-sync-cfg{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1);color:#94a3b8;border-radius:6px;padding:5px 12px;cursor:pointer;font-size:11px;font-weight:600;transition:all .15s;font-family:var(--font)}
-.btn-sync-cfg:hover{background:rgba(255,255,255,.15);color:#fff}
+
 .tabs{display:flex;gap:2px;padding:0 20px;overflow-x:auto}
 .tab{padding:10px 20px;border:none;background:transparent;color:#94a3b8;cursor:pointer;font-size:12px;font-weight:600;border-radius:var(--radius) var(--radius) 0 0;transition:all .15s;white-space:nowrap;font-family:var(--font);letter-spacing:.2px}
 .tab:hover{color:#cbd5e1;background:rgba(255,255,255,.04)}.tab.on{background:var(--bg);color:var(--ink);font-weight:700}
@@ -128,21 +127,6 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 .fld{display:flex;flex-direction:column;gap:4px}.fld label{font-size:10px;color:var(--ink2);font-weight:700;text-transform:uppercase;letter-spacing:.3px}
 .fld input,.fld select,.fld textarea{border:1.5px solid #e7e5e4;border-radius:8px;padding:9px 11px;font-size:13px;font-family:var(--font);outline:none;transition:border-color .15s;width:100%;background:#fff}.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--blue)}
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.sov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:300;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}.sov.open{display:flex}
-.sbox{background:var(--surface);border-radius:var(--radius-lg);width:100%;max-width:540px;padding:28px;box-shadow:var(--shadow-lg)}
-.sbox h2{font-size:18px;font-weight:800;color:var(--ink);font-family:var(--font-d);margin-bottom:6px}
-.sbox>p{color:var(--ink2);font-size:13px;line-height:1.6;margin-bottom:16px}
-.sstep{background:var(--surface2);border-radius:9px;padding:12px 14px;margin-bottom:10px;border-left:3px solid var(--blue)}
-.sstep strong{font-size:11px;color:var(--blue);text-transform:uppercase;letter-spacing:.3px}.sstep p{margin:3px 0 0;color:var(--ink2);font-size:12px;line-height:1.5}
-.sstep code{background:#e7e5e4;padding:1px 5px;border-radius:4px;font-size:11px}.sstep a{color:var(--blue);font-weight:600}
-.sactions{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
-.bprim{background:var(--navy);color:#fff;border:none;border-radius:8px;padding:10px 20px;cursor:pointer;font-weight:700;font-size:13px;flex:1;font-family:var(--font);transition:background .15s}.bprim:hover{background:var(--navy-light)}
-.bsec{background:var(--surface2);color:var(--ink2);border:1px solid #e7e5e4;border-radius:8px;padding:10px 18px;cursor:pointer;font-weight:600;font-size:13px;font-family:var(--font);transition:all .15s}.bsec:hover{background:#e7e5e4}
-.bsec.danger{color:var(--accent);border-color:#fca5a5}.bsec.danger:hover{background:var(--accent-soft)}
-.fb-status{margin-top:14px;padding:10px 14px;border-radius:8px;font-size:12px;display:none}
-.fb-status.ok{display:block;background:var(--green-soft);color:var(--green);border:1px solid #bbf7d0}
-.fb-status.err{display:block;background:var(--accent-soft);color:var(--accent);border:1px solid #fca5a5}
-.fb-status.loading{display:block;background:var(--surface2);color:var(--ink2);border:1px solid #e7e5e4}
 .toast{position:fixed;bottom:22px;right:22px;background:var(--navy);color:#fff;padding:11px 20px;border-radius:var(--radius);font-size:13px;font-weight:600;z-index:999;opacity:0;transform:translateY(10px);transition:all .3s;pointer-events:none;box-shadow:var(--shadow-lg)}.toast.show{opacity:1;transform:translateY(0)}
 .sync-banner{display:none;background:linear-gradient(135deg,#fef2f2,#fee2e2);border:1.5px solid #fca5a5;border-radius:var(--radius);padding:10px 16px;margin:12px 14px 0;max-width:1440px;font-size:12px;color:#991b1b;font-weight:600;align-items:center;gap:10px;box-shadow:var(--shadow-sm);animation:bannerPulse 3s ease-in-out infinite}
 .sync-banner.show{display:flex}
@@ -151,10 +135,7 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
 .sync-banner .sb-btn{background:#b91c1c;color:#fff;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:11px;font-weight:700;font-family:var(--font);white-space:nowrap;transition:background .15s}
 .sync-banner .sb-btn:hover{background:#991b1b}
 @keyframes bannerPulse{0%,100%{border-color:#fca5a5}50%{border-color:#f87171}}
-.sync-ok-badge{display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1.5px solid #86efac;border-radius:var(--radius);padding:8px 16px;margin:12px 14px 0;max-width:1440px;font-size:12px;color:#15803d;font-weight:600;align-items:center;gap:8px}
-.sync-ok-badge.show{display:flex}
-.sync-ok-badge .sb-icon{font-size:16px}
-@media(max-width:600px){.frow{grid-template-columns:1fr}.sactions{flex-direction:column}.hdr-top{gap:10px}.nav-bar{gap:8px;padding:10px 12px}}
+@media(max-width:600px){.frow{grid-template-columns:1fr}.hdr-top{gap:10px}.nav-bar{gap:8px;padding:10px 12px}}
 </style>
 </head>
 <body>
@@ -164,8 +145,7 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
     <div><h1>Nova Acrópole — BH</h1><p class="subtitle">Programação Completa · Abril – Julho 2026</p></div>
     <div class="sync-area">
       <div class="sync-dot" id="syncDot"></div>
-      <span class="sync-lbl" id="syncLbl">local</span>
-      <button class="btn-sync-cfg" onclick="openSetup()">🔥 Firebase</button>
+      <span class="sync-lbl" id="syncLbl">conectando…</span>
     </div>
   </div>
   <div class="tabs">
@@ -174,14 +154,10 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
     <button class="tab" onclick="setView('escala',this)">👤 Minha Escala</button>
   </div>
 </div></div>
-<div class="sync-banner" id="syncBanner" style="padding:10px 20px">
+<div class="sync-banner" id="syncBanner">
   <span class="sb-icon">⚠️</span>
-  <span class="sb-text">Calendário em <strong>modo local</strong> — suas edições não estão sendo compartilhadas com a equipe. Conecte ao Firebase para sincronizar.</span>
-  <button class="sb-btn" onclick="openSetup()">Conectar Firebase</button>
-</div>
-<div class="sync-ok-badge" id="syncOkBadge">
-  <span class="sb-icon">✅</span>
-  <span>Firebase conectado — edições sincronizadas em tempo real com a equipe</span>
+  <span class="sb-text">Sem conexão com o servidor — suas edições estão sendo salvas apenas neste dispositivo. Verifique sua internet e recarregue a página.</span>
+  <button class="sb-btn" onclick="location.reload()">Recarregar</button>
 </div>
 
 <div id="vSemana">
@@ -214,20 +190,6 @@ body{font-family:var(--font);background:var(--bg);min-height:100vh;font-size:13p
   <div class="mhd"><div class="mhd-txt"><h3 id="mTitle">Editar</h3><p id="mSub"></p></div>
     <div class="mhd-btns"><button class="bsv" onclick="saveModal()">✓ Salvar</button><button class="bdl" id="btnDel" onclick="delModal()">🗑</button><button class="bx" onclick="closeModal()">×</button></div>
   </div><div class="mbody" id="mBody"></div>
-</div></div>
-<div class="sov" id="setupOv" onclick="if(event.target===this)closeSetup()"><div class="sbox">
-  <h2>🔥 Configurar Firebase</h2>
-  <p>Conecte ao Firebase Realtime Database para sincronização em tempo real entre todos os usuários.</p>
-  <div class="sstep"><strong>Passo 1</strong><p>Acesse <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> → Crie um projeto → Vá em <strong>Build → Realtime Database</strong> → Crie banco em modo <strong>teste</strong>.</p></div>
-  <div class="sstep"><strong>Passo 2</strong><p>Copie a URL do banco (ex: <code>https://meu-projeto-default-rtdb.firebaseio.com</code>).</p></div>
-  <div class="sstep"><strong>Passo 3</strong><p>Cole abaixo e clique Conectar. Todos que usarem a mesma URL verão as mesmas edições.</p></div>
-  <div class="fld" style="margin-top:14px"><label>URL do Firebase Realtime Database</label><input id="cfgFbUrl" placeholder="https://meu-projeto-default-rtdb.firebaseio.com"></div>
-  <div class="fb-status" id="fbStatus"></div>
-  <div class="sactions">
-    <button class="bprim" onclick="saveSetup()">✓ Conectar</button>
-    <button class="bsec" onclick="closeSetup()">Usar só local</button>
-    <button class="bsec danger" onclick="clearSetup()">Desconectar</button>
-  </div>
 </div></div>
 <div class="toast" id="toast"></div>
 
@@ -278,10 +240,11 @@ const MAGIC_BASE={"2026-04-03":["Feriado Semana Santa","Trilha Ibitipoca - Passe
 /* STATE */
 let overrides=JSON.parse(localStorage.getItem("na_ov3")||"{}"),userAdds=JSON.parse(localStorage.getItem("na_ua3")||"{}"),lembretes=JSON.parse(localStorage.getItem("na_lemb")||"{}");
 let wkStart=getWeekStart(new Date()),mIdx=0,curView="semana",modalCtx=null,missOpen=true,lembOpen=true;
-let FB_URL=localStorage.getItem("na_fb_url")||"",fbPoll=null;
+const FB_URL_DEFAULT="https://na-bh-calendario-default-rtdb.firebaseio.com/";
+let FB_URL=FB_URL_DEFAULT,fbPoll=null;
 
 /* FIREBASE SYNC */
-function setSyncStatus(s,t){const d=document.getElementById("syncDot");d.className="sync-dot"+(s?" "+s:"");document.getElementById("syncLbl").textContent=t;const ban=document.getElementById("syncBanner"),ok=document.getElementById("syncOkBadge");if(s==="ok"){ban.classList.remove("show");ok.classList.add("show");setTimeout(()=>ok.classList.remove("show"),5000);}else if(!s||s==="err"){ban.classList.add("show");ok.classList.remove("show");}else{ok.classList.remove("show");}}
+function setSyncStatus(s,t){const d=document.getElementById("syncDot");d.className="sync-dot"+(s?" "+s:"");document.getElementById("syncLbl").textContent=t;const ban=document.getElementById("syncBanner");if(s==="ok"||s==="syncing"){ban.classList.remove("show");}else{ban.classList.add("show");}}
 function fbPath(p){return FB_URL.replace(/\/$/,"")+"/na_cal/"+p+".json";}
 async function fbPush(){if(!FB_URL)return;setSyncStatus("syncing","salvando…");try{const r=await fetch(fbPath("data"),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({overrides,userAdds,lembretes,_ts:Date.now()})});if(r.ok){setSyncStatus("ok","sincronizado ✓");showToast("Sincronizado!");}else setSyncStatus("err","erro");}catch(e){setSyncStatus("err","sem conexão");}}
 async function fbPull(silent){if(!FB_URL)return;if(!silent)setSyncStatus("syncing","atualizando…");try{const r=await fetch(fbPath("data"));if(!r.ok)return;const d=await r.json();if(!d)return;if(d.overrides!==undefined)overrides=d.overrides||{};if(d.userAdds!==undefined)userAdds=d.userAdds||{};if(d.lembretes!==undefined)lembretes=d.lembretes||{};saveLocal();refreshAll();setSyncStatus("ok","sincronizado ✓");}catch(e){setSyncStatus("err","falha");}}
@@ -289,11 +252,6 @@ function fbStart(){fbStop();if(!FB_URL)return;fbPull(false);fbPoll=setInterval((
 function fbStop(){if(fbPoll){clearInterval(fbPoll);fbPoll=null;}}
 function saveLocal(){localStorage.setItem("na_ov3",JSON.stringify(overrides));localStorage.setItem("na_ua3",JSON.stringify(userAdds));localStorage.setItem("na_lemb",JSON.stringify(lembretes));}
 async function saveAndSync(){saveLocal();if(FB_URL)await fbPush();}
-
-function openSetup(){document.getElementById("cfgFbUrl").value=FB_URL;document.getElementById("setupOv").classList.add("open");document.getElementById("fbStatus").className="fb-status";}
-function closeSetup(){document.getElementById("setupOv").classList.remove("open");}
-async function saveSetup(){const url=document.getElementById("cfgFbUrl").value.trim();const s=document.getElementById("fbStatus");if(!url){s.className="fb-status err";s.textContent="Cole a URL do Firebase.";return;}s.className="fb-status loading";s.textContent="Testando conexão…";try{const r=await fetch(url.replace(/\/$/,"")+"/na_cal/ping.json",{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify({ok:true})});if(!r.ok)throw new Error("HTTP "+r.status);FB_URL=url;localStorage.setItem("na_fb_url",FB_URL);s.className="fb-status ok";s.textContent="✓ Conectado!";fbStart();await fbPush();setTimeout(closeSetup,1200);}catch(e){s.className="fb-status err";s.textContent="✗ Falha. Verifique URL e modo teste. ("+e.message+")";}}
-function clearSetup(){FB_URL="";localStorage.removeItem("na_fb_url");fbStop();setSyncStatus("","local");closeSetup();showToast("Desconectado.");}
 
 /* HELPERS */
 function dk(d){return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;}
@@ -406,7 +364,7 @@ function refreshAll(){renderWeek();renderMonth();}
 (function(){
   let changed=false;Object.entries(MAGIC_BASE).forEach(([s,items])=>{if(!lembretes[s]){lembretes[s]=[...items];changed=true;}});if(changed)saveLocal();
   document.getElementById("vEscala").style.display="none";document.getElementById("vMes").style.display="none";
-  refreshAll();if(FB_URL)fbStart();else setSyncStatus("","local");
+  refreshAll();fbStart();
 })();
 </script>
 </body>
